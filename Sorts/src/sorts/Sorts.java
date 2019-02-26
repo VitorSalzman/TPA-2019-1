@@ -23,7 +23,7 @@ public class Sorts {
         }
         return vet;
     }
-    public int select(int[] vet){
+    public static int select(int[] vet){
         int n=vet.length;
         int i=0;
         int j=0;
@@ -44,10 +44,14 @@ public class Sorts {
             trocas+=1;
         }
         
+        for(int k=0;k<n;k++){
+            System.out.println("A posição "+k+"do vetor é: "+vet[k]);
+        }
+        
         return trocas;
     }
     
-    public int insert(int[] vet,int tam){
+    public static int insert(int[] vet){
         int i=0;
         int j=0;
         int n=vet.length;
@@ -65,10 +69,11 @@ public class Sorts {
             vet[j+1]=aux;
             trocas+=1;
             }
+        
         return trocas;
     }
     
-    public int bubble(int[] vet){
+    public static int bubble(int[] vet){
         int aux=0;
         int i=0;
         int j=0;
@@ -85,10 +90,13 @@ public class Sorts {
                 }
             }
         }
+        
+        
+        System.out.println("o número de trocas é " +trocas);
         return trocas;
     }
     
-    public int quickSort(int vet[], int inicio, int fim){
+    public static int quickSort(int vet[], int inicio, int fim){
         int i=0; 
         int j=0;
         int meio=0;
@@ -121,7 +129,9 @@ public class Sorts {
         if(i < fim){
             quickSort(vet, i, fim);
         }
-        
+        for(int k=0;k<vet.length;k++){
+            System.out.println("A posição "+k+"do vetor é: "+vet[k]);
+        }
         return trocas;
     }
     

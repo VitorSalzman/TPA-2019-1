@@ -27,7 +27,17 @@ public class Main {
         */
         int vet10[];
         int a=10;
+        int trocas=0;
         vet10=Sorts.geraVetor(a);
+        
+        
+        /*for(int i=0;i<vet10.length;i++){
+            System.out.println("O elemento "+i+" do vetor é :"+vet10[i]);
+        }
+        */
+        trocas=Sorts.quickSort(vet10,vet10[0],vet10[9]);
+        System.out.println("Trocas: "+trocas);
+        
         
         
         
