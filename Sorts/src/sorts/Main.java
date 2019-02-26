@@ -25,11 +25,12 @@ public class Main {
         System.out.printf("Informe um número para a tabuada: ");
         tam = ler.nextInt();
         */
-        int vet10[] = new int[10];
-        vet10=Functions.geraVetor(vet10);
+        int vet10[];
+        int a=10;
+        vet10=Sorts.geraVetor(a);
         
         
-        vet10
+        
     }
     
 }
