@@ -96,46 +96,54 @@ public class Sorts {
         return trocas;
     }
     
-    public static int quickSort(int vet[], int inicio, int fim){
-        int i=0; 
-        int j=0;
-        int meio=0;
-        int aux=0;
+    void shellSort(int vet[], int size) {
+        int i , j , value;
+        int gap = 1;
+        while(gap < size) {
+            gap = 3*gap+1;
+        }
+        while ( gap > 1) {
+            gap /= 3;
+            for(i = gap; i < size; i++) {
+                value = vet[i];
+                j = i - gap;
+                while (j >= 0 && value < vet[j]) {
+                    vet [j + gap] = vet[j];
+                    j -= gap;
+                }
+                vet [j + gap] = value;
+            }
+        }
+        
+    }    
+    
+    public static int quick(int vet[], int esq, int dir){
+        int pivo = esq, i,ch,j;         
         int trocas=0;
- 
-        i = inicio;
-        j = fim;
-        meio = vet[(inicio + fim) / 2];
- 
-        do{
-            while(vet[i] < meio){
-                i++;
+        for(i=esq+1;i<=dir;i++){        
+            j = i;                      
+            if(vet[j] < vet[pivo]){     
+                ch = vet[j];               
+                while(j > pivo){           
+                    vet[j] = vet[j-1];      
+                    trocas+=1;
+                    j--;                    
+                }
+                vet[j] = ch;               
+                pivo++;                    
             }
-            while(vet[j] > meio)
-                j--;
-            if(i <= j){
-               aux = vet[i];
-               vet[i] = vet[j];
-               vet[j] = aux;
-               trocas+=1;
-               i++;
-               j--;
-            }
-        }while(i <= j);
- 
-        if(inicio < j){
-            quickSort(vet, inicio, j);
         }
-        if(i < fim){
-            quickSort(vet, i, fim);
+        if(pivo-1 >= esq){              
+            quick(vet,esq,pivo-1);      
         }
-        for(int k=0;k<vet.length;k++){
-            System.out.println("A posição "+k+"do vetor é: "+vet[k]);
+        if(pivo+1 <= dir){              
+            quick(vet,pivo+1,dir);      
         }
+        
         return trocas;
+        
+        
     }
-    
-    
        
        
     
