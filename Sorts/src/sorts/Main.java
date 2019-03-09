@@ -31,11 +31,14 @@ public class Main {
         vet10=Sorts.geraVetor(a);
         
         
-        /*for(int i=0;i<vet10.length;i++){
+        for(int i=0;i<vet10.length;i++){
             System.out.println("O elemento "+i+" do vetor é :"+vet10[i]);
         }
-        */
-        trocas=Sorts.quickSort(vet10,vet10[0],vet10[9]);
+        
+        trocas=Sorts.quicksort(vet10,vet10[0],vet10.length-1,trocas);
+        for(int i=0;i<vet10.length;i++){
+            System.out.println("O elemento "+i+" do vetor é :"+vet10[i]);
+        }
         System.out.println("Trocas: "+trocas);
         
         
