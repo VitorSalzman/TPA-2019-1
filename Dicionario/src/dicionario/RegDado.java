@@ -25,4 +25,10 @@ public class RegDado{
     public String getKey(){
         return portugues;
     }
+    
+    public void setWrt(String wrt){
+        this.ingles=wrt;
+    }
+    
+   
 }
