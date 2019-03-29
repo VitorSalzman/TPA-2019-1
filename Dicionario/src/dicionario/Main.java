@@ -18,6 +18,7 @@ public class Main {
         TADDicChain vet = new TADDicChain(256);
         RegDado dado = new RegDado("Laranja", "Orange");
         
+        
         vet.insertItem(dado.getKey(), dado);
         System.out.println(vet.size());
         

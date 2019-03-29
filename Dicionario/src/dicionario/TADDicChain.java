@@ -5,6 +5,8 @@
  */
 package dicionario;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
 
 /**
@@ -28,6 +30,27 @@ public class TADDicChain {
         int soma=0;
         for(int i=0;i<str.length();i++){
             soma = soma + (int)str.charAt(i);
+        }
+        return soma;
+    }
+    
+    public int exponencial31(int expo){
+        int tot=0;
+        for(int i=0;i<expo;i++){
+            tot=tot*31;
+        }
+        
+        return tot;
+    }
+    
+    public long hashCodePol(String str){
+        int soma=0;
+        int pol=0;
+        int expo=0;
+        for(int i=0;i<str.length();i++){
+            pol=exponencial31(expo);
+            expo++;
+            soma = (soma + (int)str.charAt(i))*pol;
         }
         return soma;
     }
@@ -88,6 +111,40 @@ public class TADDicChain {
             return aux;
         }
     }
+    
+    public int[] getColisoes(){
+        int vet[] = new int[vetBuckets.length];
+        for(int i=0;i<vetBuckets.length;i++){
+            vet[i]=vetBuckets[i].size();
+        }
+        
+        return vet;
+    }
+    
+    
+    public void exibeDiagrama(int[] vet) throws IOException{ //cria um arquivo CSV com as colisões
+        FileWriter writer = null;
+        
+        try{
+            writer = new FileWriter(".\\diagrama.csv",true);
+            
+            for(int i=0;i<vet.length;i++){
+                writer.append((char) i + ",0");
+                writer.append((char) vet[i] + " \n");
+            }
+            
+            
+        } catch(IOException e){
+            e.printStackTrace();
+        } finally{
+            writer.close();
+        }
+        
+    }
+    
+    
+    
+    
     
 }
 
