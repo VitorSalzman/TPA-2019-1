@@ -53,11 +53,11 @@ class HashEngineDefault extends hash_engine{
 }
 class TDicItem {
         private Object key;
-        private Object conteudo;
+        private Object dado;
         
-        public TDicItem(Object k, Object cont){
+        public TDicItem(Object k, Object d){
             this.key = k;
-            this.conteudo = cont;
+            this.dado = d;
         }
         
         public Object getKey(){
@@ -68,8 +68,8 @@ class TDicItem {
             this.key = o;
         }
         
-        public void setConteudo(Object o){
-            this.conteudo = o;
+        public void setDado(Object o){
+            this.dado = o;
         }
         
         /**************mexendo aqui******************/
@@ -133,6 +133,10 @@ public class TADDicChain4 {
         
     }
     
+    public int size(){
+        return quant_entradas;
+    }
+    
     public void insertItem(Object k,Object o){
         Object aux = findElement(k);
         long hash_code = he.hash_func(k);
@@ -145,10 +149,28 @@ public class TADDicChain4 {
         }
         else{
             int pos = buscaDicItem(vetBuckets[indice],k);
-            //vetBuckets[indice](pos).(indice, aux) /*MEXER AQUIIIIIIIIIIIIIIII*/
+            if(pos!=-1){
+                ((TDicItem)(vetBuckets[indice].get(pos))).setDado(o);
+            }
             
         }
         
+    }
+    
+     public Object findElement(Object o){
+        long hash_code = he.hash_func(o);
+        int indice = (int)hash_code % vetBuckets.length;
+        
+        
+        int i=0;
+        
+        while(i < vetBuckets[indice].size()){
+            if(((TDicItem)(vetBuckets[indice].get(i))).getKey().equals(o)){
+                return (TDicItem)vetBuckets[indice].get(i);
+            }
+        }
+        
+        return null;
     }
         
     
