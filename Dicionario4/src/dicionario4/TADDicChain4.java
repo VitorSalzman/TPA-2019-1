@@ -5,6 +5,10 @@
  */
 package dicionario4;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 
 /**
@@ -12,10 +16,42 @@ import java.util.LinkedList;
  * @author vitorsalzman
  */
 
-
-public class TADDicChain4 {
+class HashEngineDefault extends hash_engine{
+    public long hash_fun(Object o){
+        long soma=0;
+        
+        ByteArrayOutputStream bit = new ByteArrayOutputStream();
+        ObjectOutput out = null;
+        byte[] vetBytes = null;
+        
+        try{
+            try{
+                out = new ObjectOutputStream(bit);
+                out.writeObject(o);
+                out.flush();
+                vetBytes = bit.toByteArray();
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+            
+        } finally{
+            try{
+                bit.close();
+            } catch(IOException ex){
+            }
+        }    
+         
+        for(int i=0;i<vetBytes.length;i++){
+            soma = soma + (int)vetBytes[i];
+            
+        }
+        return soma;
     
-    class TDicItem {
+        
+    }    
+    
+}
+class TDicItem {
         private Object key;
         private Object conteudo;
         
@@ -23,8 +59,14 @@ public class TADDicChain4 {
             this.key = k;
             this.conteudo = cont;
         }
+        
+        /**************mexendo aqui******************/
 
-    }    
+} 
+
+public class TADDicChain4 {
+    
+       
     
     private LinkedList[] vetBuckets = null;
     private double fator_carga = 0.75;
@@ -61,7 +103,21 @@ public class TADDicChain4 {
         for(int i=0;i<tam;i++){
             vetBuckets[i] = new LinkedList<TDicItem>();
         }
-        he = new HashFuncDefault();
+        he = new HashEngineDefault();
+    }
+    
+    private int buscaDicItem(LinkedList<TDicItem> lst, Object o){
+        int posList=0;
+        
+        while(posList<lst.size()){
+            if(((TDicItem)(lst.get(posList))).getKey().equals(o)){
+                return posList;
+            posList++;
+            }    
+        }
+        
+        return -1;
+        
     }
         
     
