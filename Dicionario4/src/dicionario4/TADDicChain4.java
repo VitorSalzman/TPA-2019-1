@@ -17,7 +17,7 @@ import java.util.LinkedList;
  */
 
 class HashEngineDefault extends hash_engine{
-    public long hash_fun(Object o){
+    public long hash_func(Object o){
         long soma=0;
         
         ByteArrayOutputStream bit = new ByteArrayOutputStream();
@@ -60,6 +60,18 @@ class TDicItem {
             this.conteudo = cont;
         }
         
+        public Object getKey(){
+            return key;
+        }
+        
+        public void setKey(Object o){
+            this.key = o;
+        }
+        
+        public void setConteudo(Object o){
+            this.conteudo = o;
+        }
+        
         /**************mexendo aqui******************/
 
 } 
@@ -81,7 +93,7 @@ public class TADDicChain4 {
             vetBuckets[i] = new LinkedList<TDicItem>();
         }
         
-        he = new HashFuncDefault();
+        he = new HashEngineDefault();
         
     }
     
@@ -112,11 +124,30 @@ public class TADDicChain4 {
         while(posList<lst.size()){
             if(((TDicItem)(lst.get(posList))).getKey().equals(o)){
                 return posList;
-            posList++;
             }    
+            posList++;
+               
         }
         
         return -1;
+        
+    }
+    
+    public void insertItem(Object k,Object o){
+        Object aux = findElement(k);
+        long hash_code = he.hash_func(k);
+        int indice = (int)hash_code % vetBuckets.length;
+        
+        if(aux == null){
+            
+            vetBuckets[indice].add(new TDicItem(k,o));
+            quant_entradas++;
+        }
+        else{
+            int pos = buscaDicItem(vetBuckets[indice],k);
+            //vetBuckets[indice](pos).(indice, aux) /*MEXER AQUIIIIIIIIIIIIIIII*/
+            
+        }
         
     }
         
