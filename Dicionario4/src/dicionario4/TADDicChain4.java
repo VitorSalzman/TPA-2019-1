@@ -137,6 +137,39 @@ public class TADDicChain4 {
         return quant_entradas;
     }
     
+    private void redimensiona(){
+        int newTam = 2*vetBuckets.length;
+        LinkedList[] newVetBuckets = new LinkedList[newTam];
+        
+        for(int i=0; i<vetBuckets.length;i++){
+            if(vetBuckets[i] != null){
+                for(int j=0;j<vetBuckets[i].size();j++){
+                    Object aux = (TDicItem)vetBuckets[i].get(j);
+                    
+                    long cod_hash = he.hash_func(((TDicItem)vetBuckets[i].get(j)).getKey());
+                    int indice = (int)cod_hash % newVetBuckets.length;
+                    
+                    newVetBuckets[indice].add(aux);
+                }
+            }
+        }
+        
+        vetBuckets = newVetBuckets;
+    }
+    
+    private int lenMaiorLst(){
+        int maior=0;
+        
+        for(int i=0; i<vetBuckets.length;i++){
+            if(vetBuckets[i] != null){
+                if(vetBuckets[i].size() > maior){
+                    maior = vetBuckets[i].size();
+                }
+            }
+        }
+        return maior;
+    }    
+               
     public void insertItem(Object k,Object o){
         Object aux = findElement(k);
         long hash_code = he.hash_func(k);
@@ -157,7 +190,7 @@ public class TADDicChain4 {
         
     }
     
-     public Object findElement(Object o){
+    public Object findElement(Object o){
         long hash_code = he.hash_func(o);
         int indice = (int)hash_code % vetBuckets.length;
         
@@ -166,14 +199,37 @@ public class TADDicChain4 {
         
         while(i < vetBuckets[indice].size()){
             if(((TDicItem)(vetBuckets[indice].get(i))).getKey().equals(o)){
-                return (TDicItem)vetBuckets[indice].get(i);
+                //return (TDicItem)vetBuckets[indice].get(i); OLHA AQUI E FALA PROF
+                return (Object)vetBuckets[indice].get(i);
             }
         }
         
         return null;
     }
+     
+    
+    public Object removeElement(Object o){
+        Object aux = findElement(o);
+        if(aux==null){
+            return null;
+        }
+        else{
+            long hash_code = he.hash_func(o);
+            int indice = (int)hash_code % vetBuckets.length;
+            
+            int posList=0;
+            while(posList<(vetBuckets[indice].size()) && ((TDicItem)(vetBuckets[indice].get(posList))).getKey().equals(o)){
+                posList++;
+            }
+            
+            vetBuckets[indice].remove(posList-1);
+            quant_entradas--;
+            
+            return aux;
+        }
+     
         
     
     
-    
+    }
 }
