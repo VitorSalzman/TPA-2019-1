@@ -72,6 +72,10 @@ class TDicItem {
             this.dado = o;
         }
         
+        public Object getDado(){
+            return dado;
+        }
+        
         /**************mexendo aqui******************/
 
 } 
@@ -84,6 +88,7 @@ public class TADDicChain4 {
     private double fator_carga = 0.75;
     private int quant_entradas = 0;
     private hash_engine he = null;
+    private boolean achou = false;
     
     public TADDicChain4(int quantEntradas){
         int tam = (int)(quantEntradas/fator_carga);
@@ -200,17 +205,22 @@ public class TADDicChain4 {
         while(i < vetBuckets[indice].size()){
             if(((TDicItem)(vetBuckets[indice].get(i))).getKey().equals(o)){
                 //return (TDicItem)vetBuckets[indice].get(i); OLHA AQUI E FALA PROF
-                return (Object)vetBuckets[indice].get(i);
+                achou=true;
+                return ((TDicItem)(vetBuckets[indice].get(i))).getDado();
+                
             }
         }
-        
+        achou=false;
         return null;
     }
      
+    public boolean NO_SUCH_KEY(){
+        return achou;
+    }
     
     public Object removeElement(Object o){
         Object aux = findElement(o);
-        if(aux==null){
+        if(NO_SUCH_KEY()){
             return null;
         }
         else{
