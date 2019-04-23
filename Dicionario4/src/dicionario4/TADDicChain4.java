@@ -143,6 +143,7 @@ public class TADDicChain4 {
     }
     
     private void redimensiona(){
+        
         int newTam = 2*vetBuckets.length;
         LinkedList[] newVetBuckets = new LinkedList[newTam];
         
@@ -153,13 +154,14 @@ public class TADDicChain4 {
                     
                     long cod_hash = he.hash_func(((TDicItem)vetBuckets[i].get(j)).getKey());
                     int indice = (int)cod_hash % newVetBuckets.length;
-                    
+                    System.out.println("Aqui");
                     newVetBuckets[indice].add(aux);
                 }
             }
         }
         
         vetBuckets = newVetBuckets;
+        
     }
     
     private int lenMaiorLst(){
@@ -176,6 +178,16 @@ public class TADDicChain4 {
     }    
                
     public void insertItem(Object k,Object o){
+        if(lenMaiorLst() >= (int)vetBuckets.length * 0.30) {
+            System.out.println("Redimensionando...");
+            System.out.println("Tamanho atual vetBuckets: " + vetBuckets.length);
+            System.out.println("Tamanho maior lista vetBuckets original: " + lenMaiorLst());
+            
+            redimensiona();
+            
+            System.out.println("Novo tamanho atual vetBuckets: " + vetBuckets.length);
+            System.out.println("Tamanho maior lista novo vetBuckets: " + lenMaiorLst());
+        }
         Object aux = findElement(k);
         long hash_code = he.hash_func(k);
         int indice = (int)hash_code % vetBuckets.length;
@@ -208,7 +220,9 @@ public class TADDicChain4 {
                 achou=true;
                 return ((TDicItem)(vetBuckets[indice].get(i))).getDado();
                 
+                
             }
+            i=i+1;
         }
         achou=false;
         return null;
