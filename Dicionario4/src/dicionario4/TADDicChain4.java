@@ -159,7 +159,6 @@ public class TADDicChain4 {
                     
                     long cod_hash = he.hash_func(((TDicItem)vetBuckets[i].get(j)).getKey());
                     int indice = (int)cod_hash % newVetBuckets.length;
-                    System.out.println("Aqui");
                     newVetBuckets[indice].add(aux);
                 }
             }
@@ -221,7 +220,7 @@ public class TADDicChain4 {
         
         while(i < vetBuckets[indice].size()){
             if(((TDicItem)(vetBuckets[indice].get(i))).getKey().equals(o)){
-               
+                System.out.println(" é igual!");
                 achou=true;
                 return ((TDicItem)(vetBuckets[indice].get(i))).getDado();
                 
@@ -240,25 +239,79 @@ public class TADDicChain4 {
     public Object removeElement(Object o){
         Object aux = findElement(o);
         if(NO_SUCH_KEY()){
+            System.out.println("AQUIIIIIIIIIIIIII");
             return null;
         }
         else{
             long hash_code = he.hash_func(o);
             int indice = (int)hash_code % vetBuckets.length;
             
-            int posList=0;
+            int posList=buscaDicItem(vetBuckets[indice],o);
+            
+            vetBuckets[indice].remove(posList);
             while(posList<(vetBuckets[indice].size()) && ((TDicItem)(vetBuckets[indice].get(posList))).getKey().equals(o)){
                 posList++;
             }
             
-            vetBuckets[indice].remove(posList-1);
-            quant_entradas--;
             
+            quant_entradas--;
+            achou=true;
             return aux;
         }
-     
+    }    
+    
+    public boolean equals(TADDicChain4 anotherDic) {
+        if(he == anotherDic.he) {
+            if(this.size() == anotherDic.size()) {
+                for(int posVet = 0; posVet < vetBuckets.length; posVet++) {
+                    for(int posList = 0; posList < vetBuckets[posVet].size(); posList++) {
+                        Object chave = ((TDicItem)(vetBuckets[posVet].get(posList))).getKey();
+                        Object dado = ((TDicItem)(vetBuckets[posVet].get(posList))).getDado();
+                        
+                        Object outroDado = anotherDic.findElement(chave);
+                        if(anotherDic.NO_SUCH_KEY() || (dado != outroDado)) {
+                            return false;
+                        } 
+                    } 
+                } 
+            }
+        }
         
+        return true;
+    } 
+     
     
+    public LinkedList<Object> keys(){///refazer
+        if(quant_entradas == 0){
+            return null;
+        }
+        else {
+            LinkedList<Object> i = new LinkedList<Object>();
+            
+            for(int posVet = 0; posVet < vetBuckets.length; posVet++) {
+                if(vetBuckets[posVet].size() > 0) {
+                    for(int posList = 0; posList < vetBuckets[posVet].size(); posList++) {
+                        i.add(((TDicItem)vetBuckets[posVet].get(posList)).getKey());
+                    } 
+                } 
+            } 
+            return i;
+        } // else {   
+    } 
     
+     public TADDicChain4 clone() {
+        TADDicChain4 dicClone = new TADDicChain4(he);
+        
+        for(int posVet = 0; posVet < vetBuckets.length; posVet++) {
+            for(int posList = 0; posList < vetBuckets[posVet].size(); posList++) {
+                Object chave = ((TDicItem)vetBuckets[posVet].get(posList)).getKey();
+                Object valor = ((TDicItem)vetBuckets[posVet].get(posList)).getDado();
+                dicClone.insertItem(chave, valor);
+            }
+        }
+        
+        return dicClone;
     }
+    
+    
 }

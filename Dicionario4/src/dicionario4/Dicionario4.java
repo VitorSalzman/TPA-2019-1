@@ -49,9 +49,9 @@ public class Dicionario4 {
         System.out.println("Tamanho do dicionario após alterar chave Gladstone" + dic.size());
         
         System.out.println("Removendo host Jobson do dicionario..");
-        dic.removeElement(687675);
+        dic.removeElement(28478);
         System.out.println("Tamanho do dicionario após a remoção do host Jobson" + dic.size());
-        dado = (RegHost)dic.findElement(687675);
+        dado = (RegHost)dic.findElement(28478);
         
         if(dado != null){
             System.out.println(dado.getIp()+", "+dado.getNome());
