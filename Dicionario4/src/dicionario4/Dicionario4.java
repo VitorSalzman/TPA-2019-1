@@ -47,7 +47,7 @@ public class Dicionario4 {
         System.out.println("Tamanho do dicionario antes de alterar Gladstone" + dic.size());
         dic.insertItem(498254, new RegHost(4824,"Gladstone",16,1));
         System.out.println("Tamanho do dicionario após alterar chave Gladstone" + dic.size());
-        /*
+        
         System.out.println("Removendo host Jobson do dicionario..");
         dic.removeElement(687675);
         System.out.println("Tamanho do dicionario após a remoção do host Jobson" + dic.size());
@@ -59,7 +59,7 @@ public class Dicionario4 {
         else{
             System.out.println("Erro 404 not found!");
         }
-        */
+        
         
         
         

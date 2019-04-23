@@ -147,6 +147,11 @@ public class TADDicChain4 {
         int newTam = 2*vetBuckets.length;
         LinkedList[] newVetBuckets = new LinkedList[newTam];
         
+        for( int i = 0; i < newTam; i++) {
+            newVetBuckets[i] = new LinkedList<TDicItem>();
+        }
+        
+        
         for(int i=0; i<vetBuckets.length;i++){
             if(vetBuckets[i] != null){
                 for(int j=0;j<vetBuckets[i].size();j++){
@@ -216,7 +221,7 @@ public class TADDicChain4 {
         
         while(i < vetBuckets[indice].size()){
             if(((TDicItem)(vetBuckets[indice].get(i))).getKey().equals(o)){
-                //return (TDicItem)vetBuckets[indice].get(i); OLHA AQUI E FALA PROF
+               
                 achou=true;
                 return ((TDicItem)(vetBuckets[indice].get(i))).getDado();
                 
