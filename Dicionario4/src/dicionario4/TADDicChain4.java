@@ -196,7 +196,7 @@ public class TADDicChain4 {
         long hash_code = he.hash_func(k);
         int indice = (int)hash_code % vetBuckets.length;
         
-        if(aux == null){
+        if(aux==null){
             
             vetBuckets[indice].add(new TDicItem(k,o));
             quant_entradas++;
@@ -233,13 +233,14 @@ public class TADDicChain4 {
     }
      
     public boolean NO_SUCH_KEY(){
-        return achou;
+        return !achou;
     }
     
     public Object removeElement(Object o){
         Object aux = findElement(o);
         if(NO_SUCH_KEY()){
             System.out.println("AQUIIIIIIIIIIIIII");
+            achou=false;
             return null;
         }
         else{
@@ -249,9 +250,10 @@ public class TADDicChain4 {
             int posList=buscaDicItem(vetBuckets[indice],o);
             
             vetBuckets[indice].remove(posList);
+            /*
             while(posList<(vetBuckets[indice].size()) && ((TDicItem)(vetBuckets[indice].get(posList))).getKey().equals(o)){
                 posList++;
-            }
+            }*/
             
             
             quant_entradas--;

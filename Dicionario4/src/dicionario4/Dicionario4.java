@@ -34,6 +34,7 @@ public class Dicionario4 {
         dic.insertItem(89784, new RegHost(2656,"Donald",64,1));
         
         System.out.println("feito!");
+        System.out.println("Buscando por Gislaine.....");
         
         RegHost dado = (RegHost)dic.findElement(587864);
         
@@ -48,6 +49,8 @@ public class Dicionario4 {
         dic.insertItem(498254, new RegHost(4824,"Gladstone",16,1));
         System.out.println("Tamanho do dicionario após alterar chave Gladstone" + dic.size());
         
+        dado = (RegHost)dic.findElement(498254);
+        System.out.println(dado.getIp()+", "+dado.getNome()+ dado.getRam());
         System.out.println("Removendo host Jobson do dicionario..");
         dic.removeElement(28478);
         System.out.println("Tamanho do dicionario após a remoção do host Jobson" + dic.size());
