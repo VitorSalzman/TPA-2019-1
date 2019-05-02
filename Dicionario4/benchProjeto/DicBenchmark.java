@@ -8,6 +8,8 @@ import java.util.Set;
 
 import _my_tools.*;
 
+import dicionario4.TADDicChain4;
+
 class RegMD {
 	private String cpf;
 	private String nome;
@@ -54,7 +56,7 @@ class RegMD {
 public class DicBenchmark {
 	public static void main(String[] args) {
 		int TAM_TESTE = 50000;
-		TADDicChain dicA = new TADDicChain();
+		TADDicChain4 dicA = new TADDicChain4();
 		ArquivoTxt arqIn = ArquivoTxt.open("./src/ifes/bsi/tpa/dic/maladireta.csv", "rt");
 		
 		HashMap<Object, Object> hm = new HashMap<Object, Object>();
@@ -88,7 +90,7 @@ public class DicBenchmark {
 		
 		/* Transferindo elementos entre dicionários. */
 		System.out.println("\nTestando a transferência de entradas entre dicionários..");
-		TADDicChain dicB = new TADDicChain();
+		TADDicChain4 dicB = new TADDicChain4();
 		
 		System.out.println("  Antes da transferência: quantidade de entradas do dicionário A: " + dicA.size());
 		System.out.println("  Antes da transferência: quantidade de entradas do dicionário B: " + dicB.size());
@@ -122,7 +124,7 @@ public class DicBenchmark {
 		
 		/* Testando a clonagem e a igualdade. */
 		System.out.print("\nClonando o dicionário B..");
-		TADDicChain dicC = dicB.clone();
+		TADDicChain4 dicC = dicB.clone();
 		
 		if(dicC.equals(dicB)) {
 			System.out.println("clonagem concluida com êxito!");			
