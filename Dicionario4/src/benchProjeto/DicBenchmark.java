@@ -1,19 +1,19 @@
-package ifes.bsi.tpa.dic;
-
+package benchProjeto;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
-import _my_tools.*;
 
+import _my_tools.*;
 import dicionario4.TADDicChain4;
 
 class RegMD {
 	private String cpf;
 	private String nome;
 	private String end;
+        
 	private String cel;
 	
 	public RegMD(String cpf, String nome, String end, String cel) {
@@ -57,7 +57,7 @@ public class DicBenchmark {
 	public static void main(String[] args) {
 		int TAM_TESTE = 50000;
 		TADDicChain4 dicA = new TADDicChain4();
-		ArquivoTxt arqIn = ArquivoTxt.open("./src/ifes/bsi/tpa/dic/maladireta.csv", "rt");
+		ArquivoTxt arqIn = ArquivoTxt.open("./src/benchProjeto/maladireta.csv", "rt");
 		
 		HashMap<Object, Object> hm = new HashMap<Object, Object>();
 		

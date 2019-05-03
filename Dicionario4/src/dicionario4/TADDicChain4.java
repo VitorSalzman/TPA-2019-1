@@ -142,6 +142,17 @@ public class TADDicChain4 {
         return quant_entradas;
     }
     
+    public int getSizeVetBuckets(){
+        return vetBuckets.length;
+    }
+    
+    public boolean isEmpty(){
+        if(getSizeVetBuckets()==0){
+            return true;
+        }
+        return false;
+    }
+    
     private void redimensiona(){
         
         int newTam = 2*vetBuckets.length;
@@ -220,7 +231,7 @@ public class TADDicChain4 {
         
         while(i < vetBuckets[indice].size()){
             if(((TDicItem)(vetBuckets[indice].get(i))).getKey().equals(o)){
-                System.out.println(" é igual!");
+                
                 achou=true;
                 return ((TDicItem)(vetBuckets[indice].get(i))).getDado();
                 
@@ -239,7 +250,7 @@ public class TADDicChain4 {
     public Object removeElement(Object o){
         Object aux = findElement(o);
         if(NO_SUCH_KEY()){
-            System.out.println("AQUIIIIIIIIIIIIII");
+            
             achou=false;
             return null;
         }
