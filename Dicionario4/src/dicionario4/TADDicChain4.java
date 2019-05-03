@@ -147,10 +147,7 @@ public class TADDicChain4 {
     }
     
     public boolean isEmpty(){
-        if(getSizeVetBuckets()==0){
-            return true;
-        }
-        return false;
+        return (this.quant_entradas > 0)? false: true;
     }
     
     private void redimensiona(){
