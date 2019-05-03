@@ -1,11 +1,11 @@
 package ifes.bsi.tpa.dic;
 
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
-
 import _my_tools.*;
 
 import dicionario4.TADDicChain4;
