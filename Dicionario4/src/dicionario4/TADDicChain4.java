@@ -54,6 +54,7 @@ class HashEngineDefault extends hash_engine{
 class TDicItem {
         private Object key;
         private Object dado;
+        private long HashCache;
         
         public TDicItem(Object k, Object d){
             this.key = k;
@@ -76,6 +77,13 @@ class TDicItem {
             return dado;
         }
         
+        public long getCache(){
+            return HashCache;
+        }
+        
+        public void setCache(long cache){
+            this.HashCache = cache;
+        }
         /**************mexendo aqui******************/
 
 } 
@@ -204,9 +212,10 @@ public class TADDicChain4 {
         long hash_code = he.hash_func(k);
         int indice = (int)hash_code % vetBuckets.length;
         
-        if(aux==null){
-            
-            vetBuckets[indice].add(new TDicItem(k,o));
+        if(NO_SUCH_KEY()){
+            TDicItem item = new TDicItem(k,o);
+            item.setCache(hash_code);
+            vetBuckets[indice].add(item);
             quant_entradas++;
         }
         else{
@@ -258,10 +267,7 @@ public class TADDicChain4 {
             int posList=buscaDicItem(vetBuckets[indice],o);
             
             vetBuckets[indice].remove(posList);
-            /*
-            while(posList<(vetBuckets[indice].size()) && ((TDicItem)(vetBuckets[indice].get(posList))).getKey().equals(o)){
-                posList++;
-            }*/
+            
             
             
             quant_entradas--;
