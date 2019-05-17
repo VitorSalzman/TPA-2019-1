@@ -17,6 +17,7 @@ public class TADGrafoDV2 {
     private int quantVertx = 0;
     private int quantEdges = 0;
     private int geraIDedge = 1;
+    private int geraIDVertex = 1;
     private int primeiroVertex = 0;
     private int ultimoVertex = 0;
     private LinkedList lstDeletados = null;
@@ -77,5 +78,96 @@ public class TADGrafoDV2 {
         return null;
     }
     
+    public Integer opposite(int v, int e){
+        if(valido(v)){
+            for(int i=primeiroVertex; i<=ultimoVertex; i++){
+                if(mat[v][i]==e){
+                    return i;
+                }
+            return null;    
+            }
+        }
+        else{
+            return null;
+        }
+        
+        return null;
+    }
     
+    public int outDegree(int v){
+        int grau = 0;
+        for(int i=primeiroVertex; i<=ultimoVertex; i++){
+            if(mat[v][i] != 0 && valido(v)){
+                grau++;
+            }
+        }
+        return grau;
+    }
+    
+    public Integer insereVertex(){
+        quantVertx++;
+        int id;
+        
+        if(lstDeletados.size() > 0){
+            id = (int) lstDeletados.removeFirst();
+        }
+        else{
+            id = geraIDVertex++;
+        }
+        return id;
+    }
+    
+    public int insereEdge(int u, int v){
+        if(valido(u) && valido(v)){
+            mat[u][v] = geraIDedge++;
+            quantEdges++;
+            return mat[u][v];
+            
+        }
+        return -1;
+    }
+    
+    public void removeEdge(int e){
+        for(int i=primeiroVertex; i<=ultimoVertex; i++){
+            for(int k=primeiroVertex; k<=ultimoVertex; k++){
+                if(mat[i][k] == e){
+                    mat[i][k] = 0;
+                    quantEdges--;
+                    
+                }
+            }
+        }
+    }
+    
+    public Integer removeVertex(int v){
+        if(valido(v)){
+            lstDeletados.add(v);
+            
+            if(v == primeiroVertex){
+                for(int i=primeiroVertex+1; i<=ultimoVertex;i++){
+                    if(!lstDeletados.contains(i)){
+                        primeiroVertex = i;
+                        break;
+                    }
+                    
+                }
+            }
+            
+            if(v == ultimoVertex){
+                for(int i=ultimoVertex-1; i>=primeiroVertex; i--){
+                    if(!lstDeletados.contains(i)){
+                        ultimoVertex = i;
+                        break;
+                    }
+                }
+            }
+            
+            quantVertx--;
+            return v;    
+        }
+        else{
+            return null;
+        }
+    }
+           
 }
