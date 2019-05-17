@@ -6,7 +6,7 @@
 package tadgrafodv2;
 
 import java.util.LinkedList;
-
+import dicionario4;
 /**
  *
  * @author Salzman
@@ -21,6 +21,7 @@ public class TADGrafoDV2 {
     private int primeiroVertex = 0;
     private int ultimoVertex = 0;
     private LinkedList lstDeletados = null;
+    TADDicChain4 dicLblVertex = new TADDicChain4();
     
     public TADGrafoDV2(String nome){
         mat = new int[10][10];
@@ -104,17 +105,29 @@ public class TADGrafoDV2 {
         return grau;
     }
     
-    public Integer insereVertex(){
-        quantVertx++;
-        int id;
+    public Vertex insereVertex(String label, Object o){
+        int idV = geraIDVertex++;
         
-        if(lstDeletados.size() > 0){
-            id = (int) lstDeletados.removeFirst();
+        if(idV > ultimoVertex){
+            ultimoVertex = idV;
+        }
+        if(idV < primeiroVertex){
+            primeiroVertex = idV;
+        }
+        
+        
+        Vertex V = (Vertex)dicLblVertex.findElement(label);
+        if(dicLblVertex.NO_SUCH_KEY()){
+            V = new Vertex(label, o);
+            V.setId(idV);
+            dicLblVertex.insertItem(label,V);
+            quantVertx++;
         }
         else{
-            id = geraIDVertex++;
+            V.setDado(o);
         }
-        return id;
+        
+        return V;
     }
     
     public int insereEdge(int u, int v){
@@ -162,6 +175,23 @@ public class TADGrafoDV2 {
                 }
             }
             
+            for(int i=primeiroVertex+1; i<=ultimoVertex; i++){
+                if(mat[v][i] != 0){
+                    mat[v][i]=0;
+                    quantEdges--;
+                }
+                
+                if(((mat[i][v] != 0)) && ((mat[v][i] != mat[i][v]))){
+                    mat[i][v]=0;
+                    quantEdges--;
+                    
+                }
+             
+                
+            }
+            
+            
+            
             quantVertx--;
             return v;    
         }
@@ -169,5 +199,23 @@ public class TADGrafoDV2 {
             return null;
         }
     }
+    
+    public boolean areaAdjacent(int u, int v){
+        if(valido(u) && valido(v)){
+            return mat[u][v] != 0;
+        }
+        else{
+            return false;
+        }
+    }
+
+
+    
+    
            
 }
+
+
+///TO DO 
+///public vertez insertVertex(String label, Object o)
+///public Edge insertEdge(String vu, String vv, String label, Object o)
