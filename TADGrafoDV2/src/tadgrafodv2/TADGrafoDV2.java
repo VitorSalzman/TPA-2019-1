@@ -6,7 +6,7 @@
 package tadgrafodv2;
 
 import java.util.LinkedList;
-import dicionario4;
+import dicionario4.TADDicChain4;
 /**
  *
  * @author Salzman
@@ -62,6 +62,8 @@ public class TADGrafoDV2 {
         }
     }
     
+    
+    
     public int[] endVertices(int e){
         for(int i =primeiroVertex;i<=ultimoVertex;i++){
             if(valido(i)){
@@ -95,6 +97,15 @@ public class TADGrafoDV2 {
         return null;
     }
     
+    public int inDegree(int v){
+        int grau=0;
+        for(int i=primeiroVertex; i<=ultimoVertex;i++){
+            if(mat[i][v] != 0 && valido(v)){
+                grau++;
+            }
+        }
+        return grau;
+    }
     public int outDegree(int v){
         int grau = 0;
         for(int i=primeiroVertex; i<=ultimoVertex; i++){
@@ -102,6 +113,13 @@ public class TADGrafoDV2 {
                 grau++;
             }
         }
+        return grau;
+    }
+    
+    public int Degree(int v){
+        int grau=0;
+        grau=inDegree(v);
+        grau=grau+outDegree(v);
         return grau;
     }
     
