@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dicionario4;
+package dicionario;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -88,7 +88,7 @@ class TDicItem {
 
 } 
 
-public class TADDicChain4 {
+public class TADDicChain {
     
        
     
@@ -98,7 +98,7 @@ public class TADDicChain4 {
     private hash_engine he = null;
     private boolean achou = false;
     
-    public TADDicChain4(int quantEntradas){
+    public TADDicChain(int quantEntradas){
         int tam = (int)(quantEntradas/fator_carga);
         vetBuckets = new LinkedList[tam];
         
@@ -110,7 +110,7 @@ public class TADDicChain4 {
         
     }
     
-    public TADDicChain4(hash_engine h){
+    public TADDicChain(hash_engine h){
         int tam = 100;
         vetBuckets = new LinkedList[tam];
         
@@ -121,7 +121,7 @@ public class TADDicChain4 {
         he = h;
     }
     
-    public TADDicChain4(){
+    public TADDicChain(){
         int tam = 100;
         vetBuckets = new LinkedList[tam];
         
@@ -276,7 +276,7 @@ public class TADDicChain4 {
         }
     }    
     
-    public boolean equals(TADDicChain4 anotherDic) {
+    public boolean equals(TADDicChain anotherDic) {
         if(he == anotherDic.he) {
             if(this.size() == anotherDic.size()) {
                 for(int posVet = 0; posVet < vetBuckets.length; posVet++) {
@@ -315,8 +315,8 @@ public class TADDicChain4 {
         } // else {   
     } 
     
-     public TADDicChain4 clone() {
-        TADDicChain4 dicClone = new TADDicChain4(he);
+     public TADDicChain clone() {
+        TADDicChain dicClone = new TADDicChain(he);
         
         for(int posVet = 0; posVet < vetBuckets.length; posVet++) {
             for(int posList = 0; posList < vetBuckets[posVet].size(); posList++) {

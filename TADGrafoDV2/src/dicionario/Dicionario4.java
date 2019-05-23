@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dicionario4;
+package dicionario;
 
 /**
  *
@@ -19,7 +19,7 @@ public class Dicionario4 {
         
         System.out.println("Boa noite!");
         
-        TADDicChain4 dic = new TADDicChain4(5);
+        TADDicChain dic = new TADDicChain(5);
         System.out.println("AQUI");
         dic.insertItem(587864, new RegHost(7867,"Gislaine",64,1));
         System.out.println("AQUI2");
@@ -67,7 +67,7 @@ public class Dicionario4 {
         
         System.out.println("Boa noite!");
         
-        TADDicChain4 dic2 = new TADDicChain4(5);
+        TADDicChain dic2 = new TADDicChain(5);
        /* System.out.println("AQUI");
         dic2.insertItem(587864, new RegHost(7867,"Gislaine",64,1));
         System.out.println("AQUI2");

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dicionario4;
+package dicionario;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,9 +14,20 @@ import java.io.ObjectOutputStream;
  *
  * @author vitorsalzman
  */
-public class HashPol extends hash_engine{
+public class HashSAX extends hash_engine{
+    private static long sax(String k) {
+        long h = 0;
+        
+        for (int i = 0; i < k.length(); i++) {
+            h = ((h<<5) + h) ^ (int)k.charAt(i);
+        }
+
+        return Math.abs((int)h);
+    }
+
     @Override
     public long hash_func(Object k) {
+        long saida;
         long soma = 0;
         
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -42,14 +53,10 @@ public class HashPol extends hash_engine{
             catch(IOException ex) {
                 ex.printStackTrace();
             }
-        }    
+        } 
         
-        for(int i = 0; i < vetBytes.length; i++) {
-            soma = soma + 31^(int)vetBytes[i];    
-        }
-
-        //System.out.println("Hash gerado: " + soma);
-        return Math.abs(soma);
+        saida = HashSAX.sax(k.toString());
+        
+        return saida;
     }
-    
 }

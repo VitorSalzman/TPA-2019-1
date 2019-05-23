@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dicionario4;
+package dicionario;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,20 +12,32 @@ import java.io.ObjectOutputStream;
 
 /**
  *
- * @author Salzman
+ * @author vitorsalzman
  */
-public class HashBernstein  extends hash_engine{
+public class HashBernsteinM extends hash_engine{
     
-    private static long bernstein(String k){
+    private static long bernsteinM(String k) {
         long h = 0;
         int i;
         
         for(i = 0; i < k.length(); i++) {
-            h = 33 + h + (int)k.charAt(i);
+            h = (33 + h) ^ (int)k.charAt(i);
         }
         
         return Math.abs((int)h);
     }
+    
+    
+    public static long bernsteinM2(String str) {
+	long hash = 0;
+        
+	for (int i = 0; i < str.length(); i++) {
+            hash = str.charAt(i) + ((hash << 5) - hash);
+	}
+        
+	return hash;
+    }
+    
 
     @Override
     public long hash_func(Object k) {
@@ -57,10 +69,8 @@ public class HashBernstein  extends hash_engine{
             }
         } 
         
-        saida = HashBernstein.bernstein(k.toString());
+        saida = HashBernsteinM.bernsteinM(k.toString());
         
         return saida;
     }
-
-    
 }

@@ -6,7 +6,7 @@
 package tadgrafodv2;
 
 import java.util.LinkedList;
-import dicionario4.TADDicChain4;
+import dicionario.TADDicChain;
 /**
  *
  * @author Salzman
@@ -21,7 +21,7 @@ public class TADGrafoDV2 {
     private int primeiroVertex = 0;
     private int ultimoVertex = 0;
     private LinkedList lstDeletados = null;
-    TADDicChain4 dicLblVertex = new TADDicChain4();
+    TADDicChain dicLblVertex = new TADDicChain();
     
     public TADGrafoDV2(String nome){
         mat = new int[10][10];
