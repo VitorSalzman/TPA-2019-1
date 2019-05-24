@@ -19,7 +19,7 @@ public class TADGrafoDV2 {
     private int quantVertx = 0;
     private int quantEdges = 0;
     private int geraIDedge = 1;
-    private int geraIDVertex = 1;
+    private int geraIDvertex = 1;
     private int primeiroVertex = 0;
     private int ultimoVertex = 0;
     private LinkedList lstDeletados = null;
@@ -235,17 +235,21 @@ public class TADGrafoDV2 {
             return grau;
         }
     }
-    /*
-    public int Degree(int v){
-        int grau=0;
-        grau=inDegree(v);
-        grau=grau+outDegree(v);
-        return grau;
+    
+    public Integer Degree(String l) {
+        Integer in = inDegree(l);
+        Integer out = outDegree(l);
+        
+        if((in == null) || (out == null)) {
+            return null;
+        }
+        else {
+            return in + out;
+        }
     }
-    */
     
     public Vertex insereVertex(String label, Object o){
-        int idV = geraIDVertex++;
+        int idV = geraIDVertex();
         
         if(idV > ultimoVertex){
             ultimoVertex = idV;
@@ -284,7 +288,7 @@ public class TADGrafoDV2 {
         
         if(dicLblEdge.NO_SUCH_KEY()){
             e = new Edge(l, o);
-            e.setId(geraIDedge++);
+            e.setId(geraIDVertex());
             
             dicLblEdge.insertItem(l, e);
             
@@ -374,13 +378,38 @@ public class TADGrafoDV2 {
         return dicLblVertex.removeElement(l);    
     }
     
-    public boolean areaAdjacent(int u, int v){
-        if(valido(u) && valido(v)){
-            return mat[u][v] != 0;
-        }
-        else{
+    public boolean areaAdjacent(int origem, int destino){
+        Vertex vO = (Vertex)dicLblVertex.findElement(origem);
+        if(dicLblVertex.NO_SUCH_KEY()) {
             return false;
         }
+        
+        Vertex vD = (Vertex)dicLblVertex.findElement(destino);
+        if(dicLblVertex.NO_SUCH_KEY()) {
+            return false;
+        }
+        return mat[vO.getId()][vD.getId()] != 0;
+        
+    }
+    
+    private int geraIDVertex() {
+        int id;
+        
+        if(lstDeletados.size() == 0) {
+            id = geraIDvertex++;
+        }
+        else {
+            id = (int) lstDeletados.get(0);
+            lstDeletados.remove();
+        }
+        
+        if(id < primeiroVertex)
+            primeiroVertex = id;
+        
+        if(id > ultimoVertex)
+            ultimoVertex = id;
+        
+        return id;
     }
 
 
