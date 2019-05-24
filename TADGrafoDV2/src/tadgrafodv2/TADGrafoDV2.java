@@ -34,10 +34,12 @@ public class TADGrafoDV2 {
     }
     
     public void printmat(){
-        for(int i=primeiroVertex; i<ultimoVertex; i++){
+        for(int i=primeiroVertex; i<=ultimoVertex+1; i++){
             if(!lstDeletados.contains(i)){
-                for(int k=0;k<mat[0].length; k++){
-                    System.out.println(String.format("%d",mat[i][k]));
+                for(int k=primeiroVertex;k<=ultimoVertex; k++){
+                    if(!lstDeletados.contains(i)){
+                        System.out.print(String.format("%d",mat[i][k]));
+                    }
                 }
             System.out.println();    
             }
@@ -84,7 +86,8 @@ public class TADGrafoDV2 {
                             for(int m=0; m<lstE.size(); m++){
                                 e = (Edge)dicLblEdge.findElement(lstE.get(m));
                                 if(e.getId()==idEdge){
-                                    lblDestino = e.getLabel();
+                                   ///lblDestino = e.getLabel();
+                                    lblEdge = e.getLabel();
                                     break;
                                 }
                             }
