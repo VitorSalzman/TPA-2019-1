@@ -227,7 +227,7 @@ public class TADDicChain {
     } 
      
     
-    public LinkedList<Object> keys(){///refazer
+    public LinkedList<Object> keys(){
         if(quant_entradas == 0){
             return null;
         }
@@ -242,8 +242,27 @@ public class TADDicChain {
                 } 
             } 
             return i;
-        } // else {   
+        }    
     } 
+    
+    public LinkedList<TDicItem> elements() {
+        LinkedList<TDicItem> i = new LinkedList<TDicItem>();
+        
+        if(isEmpty()) {
+            return i;
+        }
+        else {
+            for(int posVet = 0; posVet < getSizeVetBuckets(); posVet++) {
+                if(vetBuckets[posVet].size() > 0) {
+                    for(int posList = 0; posList < vetBuckets[posVet].size(); posList++) {
+                        i.add(((TDicItem)vetBuckets[posVet].get(posList)));
+                    }
+                }
+            }
+            
+            return i;
+        }
+}
     
      public TADDicChain clone() {
         TADDicChain dicClone = new TADDicChain(he);
