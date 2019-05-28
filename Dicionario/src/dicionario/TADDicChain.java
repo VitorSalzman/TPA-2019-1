@@ -262,7 +262,27 @@ public class TADDicChain {
             
             return i;
         }
-}
+    }
+    
+    public LinkedList<Object> getItens() {
+        LinkedList<Object> i = new LinkedList<Object>();
+        
+        if(isEmpty()) {
+            return i;
+        }
+        else {
+            for(int posVet = 0; posVet < getSizeVetBuckets(); posVet++) {
+                if(vetBuckets[posVet].size() > 0) {
+                    for(int posList = 0; posList < vetBuckets[posVet].size(); posList++) {
+                        i.add(((TDicItem)vetBuckets[posVet].get(posList)).getDado());
+                    }
+                }
+            }
+            
+            return i;
+        }
+    }
+    
     
      public TADDicChain clone() {
         TADDicChain dicClone = new TADDicChain(he);
@@ -278,5 +298,15 @@ public class TADDicChain {
         return dicClone;
     }
     
+     public LinkedList<Integer> getVetColisoes(){
+         LinkedList<Integer> list = new LinkedList();
+         for(int i=0; i<this.getSizeVetBuckets(); i++){
+             list.add(vetBuckets[i].size());
+         }
+         
+         return list;
+     }
+     
+     
     
 }

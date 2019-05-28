@@ -5,6 +5,9 @@
  */
 package TADMatriz;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
 
 /**
@@ -101,14 +104,21 @@ public class TADMatriz {
             }
         }          
     }
-    /*
     public TADMatriz multi(TADMatriz m){
-        if(this.quantColunas() == m.quantLinhas()){
-            TADMatriz mAux = new TADMatriz(this.quantLinhas(),m.quantColunas());
+        if(this.quantColunas() != m.quantLinhas()){
+            return null;
         }
         
+        TADMatriz mAux = new TADMatriz(this.quantLinhas(), m.quantColunas());
+        for(int i=1; i<=this.quantLinhas();i++){
+            for(int j=1;j<=m.quantColunas();j++){
+                for(int k=1;k<=this.quantColunas();k++){
+                    mAux.setElem(i,j,mAux.getElem(i, j)+(this.getElem(i, k)*m.getElem(k, j)));
+                }
+            }
+        }    
+        return mAux;
     }
-    */
     
     public TADMatriz transposta(){
         TADMatriz mAux = new TADMatriz(this.colunas,this.linhas);
@@ -120,7 +130,5 @@ public class TADMatriz {
         }
         return mAux;    
     }
-    
-    
-    
+      
 }
