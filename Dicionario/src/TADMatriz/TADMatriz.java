@@ -5,7 +5,10 @@
  */
 package TADMatriz;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -129,6 +132,71 @@ public class TADMatriz {
             }
         }
         return mAux;    
+    }
+    
+    public static TADMatriz carrega(String nome_arq) throws FileNotFoundException, IOException{
+        BufferedReader buffRead = new BufferedReader(new FileReader(nome_arq));
+        String linha = "";
+        int i=0,j=0;
+        
+        LinkedList<String> result = new LinkedList<String>();
+                
+        while (true) {
+            if (linha != null) {
+                if(!linha.trim().isEmpty()){
+                    result.add(linha);
+                    i++;
+                }
+            } else
+                break;
+            linha = buffRead.readLine();
+        }
+        buffRead.close();
+        String[] line = result.get(1).split("\\s+");
+        
+        for (String string : line) {
+            if(!string.isEmpty()){
+                j++;
+//                System.out.println("line");
+            }
+        }
+        
+//        System.out.printf("quantidade de linhas: "+i+"\n");
+//        System.out.printf("quantidade de colunas: "+j+"\n");
+        
+        TADMatriz matriz = new TADMatriz(i,j);
+        int countI=1,countJ=1;
+        for (String lineResult : result) {
+            line = lineResult.split("\\s+");
+            for (String cell : line) 
+                if(!cell.isEmpty()){
+                    matriz.setElem(countI, countJ, Float.parseFloat(cell));
+                    countJ++;
+                }
+            countJ=1;
+            countI++;
+        }
+        
+        return matriz;
+        
+    }
+    
+    public String salva(String nome_arq) throws IOException{
+        /*
+        salva a matriz corrente (this) em um arquivo texto de nome nome_arq cada linha do arquivo deve ser uma linha da matriz
+        */
+        BufferedWriter bufferWriter = new BufferedWriter(new FileWriter(nome_arq, true));
+        String line;
+        for(int i=1;i<=this.quantLinhas();i++){
+            line = "";
+            for(int j=1;j<=this.quantColunas();j++){
+                line += this.getElem(i, j)+" ";
+            }
+            line += "\n";
+            bufferWriter.write(line);
+        }
+        bufferWriter.close();
+        return nome_arq;
     }
       
 }
