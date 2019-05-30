@@ -35,6 +35,9 @@ public class TADMatriz {
     public int quantColunas(){
         return colunas;
     }
+    
+    
+    
     public Float[][] cria_mat(int linhas, int colunas){
         mat = new Float[linhas][colunas];
         
@@ -46,9 +49,19 @@ public class TADMatriz {
         return mat;
     }
     
+    
+    public void imprimeMatriz() {
+        for(int i=1; i<=this.linhas; i++){
+            for(int j=1; j<=this.colunas; j++){
+                System.out.print(this.getElem(i, j)+" || ");
+            }
+            System.out.println("");
+        }
+    }
+    
     public Float getElem(int i, int j){
-        if((i<=linhas) && (i>=0)){
-            if((j<=linhas) && (j>=0)){
+        if((i<=linhas)&&(i>=0)){
+            if((j<=linhas)&&(j>=0)){
                 for(int k=0;k<=linhas;k++){
                     for(int l=0;l<=colunas;l++){
                         if((i==k)&&(j==l)){
@@ -157,12 +170,12 @@ public class TADMatriz {
         for (String string : line) {
             if(!string.isEmpty()){
                 j++;
-//                System.out.println("line");
+               System.out.println("line");
             }
         }
         
-//        System.out.printf("quantidade de linhas: "+i+"\n");
-//        System.out.printf("quantidade de colunas: "+j+"\n");
+       System.out.printf("quantidade de linhas: "+i+"\n");
+       System.out.printf("quantidade de colunas: "+j+"\n");
         
         TADMatriz matriz = new TADMatriz(i,j);
         int countI=1,countJ=1;
