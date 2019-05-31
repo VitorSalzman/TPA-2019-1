@@ -415,8 +415,37 @@ public class TADGrafoDV2 {
         return id;
     }
 
-
+    public LinkedList<Edge> outIncidentEdges(String label){
+        Vertex v = (Vertex)dicLblVertex.findElement(label);
+        if(dicLblVertex.NO_SUCH_KEY())return null;
+        
+        LinkedList<Edge> list = new LinkedList<Edge>();
+        
+        int id = v.getId();
+        
+        for(int i=primeiroVertex;i<=ultimoVertex;i++){
+            if((!lstDeletados.contains(i)) && (mat[i][id] !=0)){
+                list.add(intToEdge(mat[i][id]));
+            }
+        }    
+        return list;
+            
+    }
+        
+    }
     
+    
+    public LinkedList<Edge> incidentEdges(String label){
+        LinkedList<Edge> list = inIncidentEdges(label);
+        list.addAll(outIncidentEdges(label));
+        return list;
+        
+    }
+    public LinkedList<Edge> adjacentVertices(Vertex v){
+        LinkedList<Edge> list = inIncidentEdges(v);
+        list.addAll(outIncidentEdges(v));
+        return list;
+    }
     
            
 }
