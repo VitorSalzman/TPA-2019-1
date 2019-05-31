@@ -5,13 +5,16 @@
  */
 package TADMatriz;
 
+import dicionario.TADDicChain;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 /**
  *
@@ -21,11 +24,13 @@ public class TADMatriz {
     Float mat[][];
     int linhas;
     int colunas;
+    TADDicChain dicDados;
     
     public TADMatriz(int linhas, int colunas){
         this.linhas=linhas;
         this.colunas=colunas;
         this.mat=cria_mat(linhas, colunas);
+        dicDados = new TADDicChain();
     }
     
     public int quantLinhas(){
@@ -53,46 +58,83 @@ public class TADMatriz {
     public void imprimeMatriz() {
         for(int i=1; i<=this.linhas; i++){
             for(int j=1; j<=this.colunas; j++){
-                System.out.print(this.getElem(i, j)+" || ");
+                if(this.getElem(i, j)==null) continue;
+                System.out.print(this.getElem(i, j)+" | ");
             }
             System.out.println("");
         }
     }
     
-    public Float getElem(int i, int j){
-        if((i<=linhas)&&(i>=0)){
-            if((j<=linhas)&&(j>=0)){
-                for(int k=0;k<=linhas;k++){
-                    for(int l=0;l<=colunas;l++){
-                        if((i==k)&&(j==l)){
-                            return mat[i][j];///se a posição passada não tiver nenhum elemento, será retornado nulo
-                        }    
-                    }
-                }    
+    public boolean isValidoP(int i, int j){
+        if((i>=0) && (i<this.quantLinhas()) && (j>=0) && (j<this.quantColunas())) return true;
+        return false;
+    }
+    
+    public LinkedList diagonalPrincipal(){
+        LinkedList d = null;
+        if (quantLinhas() == quantColunas()){
+             d = new LinkedList();
+            for (int i=0; i<quantLinhas(); i++){
+                for(int j=0; j<quantColunas(); j++){
+                    if (i==j) d.add(this.getElem(i,j));
+                }
+            }   
+        }
+        else
+            System.out.println("Incapaz de definir diagonal principal");
+        return d;
+    }
+    
+    public boolean isQuadrada(int linhas, int colunas){
+        if(linhas == colunas) return true;
+        return false;
+    }
+    
+    public LinkedList diagonalSecundaria(){
+        LinkedList d = null;
+        
+        if(isQuadrada(linhas,colunas)){
+            d = new LinkedList();
+            int n = this.quantColunas()-1;
+            
+            for(int i=0; i<this.quantLinhas(); i++){
+                for(int j=this.quantColunas()-1; j>=0; j--){
+                    if(i+j ==n) d.add(this.getElem(i, j));
+                }
             }
-            else{
-                return null;
-            }    
+            
         }
         else{
-            return null;
+            System.out.println("Incapaz de definir diagonal secundária");
         }
-        return null;
-    }  ///retorna null somente se as posições passadas extrapolarem as dimensões da matriz
+        
+        return d;
+    }
+    
+    public Float getElem(int i, int j){
+        Float dado = null;
+        
+        if(isValidoP(i,j)){
+            String key = i+"|"+j;
+            dado = (Float)this.dicDados.findElement(key);
+            
+            if(dado==null)dado=0F;
+        }
+        
+        return dado;
+    }  ///retorna null se as posições passadas extrapolarem as dimensões da matriz,
+       ///ou se não encontrar nenhum dado na posição ij
     
     public Float setElem(int i, int j, Float valor){
-        if((i<=linhas) &&(i>=0)){
-            if((j<=colunas)&&(j>=0)){
-                mat[i][j]=valor;
-                return valor;
-            }
-            else{
-                return null;
-            }
+        if(isValidoP(i, j)){
+            String chave = i+";"+j;
+            
+            if(valor!=0F)
+                dicDados.insertItem(chave, valor);
+            else
+                dicDados.insertItem(chave, null);
         }
-        else{
-            return null;
-        }
+        return valor;     
     }
     
     public TADMatriz soma(TADMatriz m){
@@ -121,7 +163,7 @@ public class TADMatriz {
         }          
     }
     public TADMatriz multi(TADMatriz m){
-        if(this.quantColunas() != m.quantLinhas()){
+        if(!isValidoP(m.quantLinhas(),m.quantColunas())){
             return null;
         }
         
@@ -147,62 +189,50 @@ public class TADMatriz {
         return mAux;    
     }
     
-    public static TADMatriz carrega(String nome_arq) throws FileNotFoundException, IOException{
-        BufferedReader buffRead = new BufferedReader(new FileReader(nome_arq));
-        String linha = "";
-        int i=0,j=0;
+    public static TADMatriz carrega(String nome_arq) throws FileNotFoundException{
+        File arq = new File (nome_arq);
+        Scanner s = new Scanner(arq);
+        String line;
+        LinkedList<String> lista = new LinkedList();
+        int l=0,c=0;
         
-        LinkedList<String> result = new LinkedList<String>();
-                
-        while (true) {
-            if (linha != null) {
-                if(!linha.trim().isEmpty()){
-                    result.add(linha);
-                    i++;
-                }
-            } else
-                break;
-            linha = buffRead.readLine();
-        }
-        buffRead.close();
-        String[] line = result.get(1).split("\\s+");
-        
-        for (String string : line) {
-            if(!string.isEmpty()){
-                j++;
-               System.out.println("line");
+        while(s.hasNextLine()) {
+            l++;   
+            line = s.nextLine(); 
+            String[] vet = line.split(" ");    //Separação de valores
+            
+            for (int i = 0; i < vet.length; i++) 
+                if (!vet[i].isEmpty())
+                    lista.addLast(vet[i]);
+            
+            if (l == 1) {
+                c = lista.size();
             }
         }
-        
-       System.out.printf("quantidade de linhas: "+i+"\n");
-       System.out.printf("quantidade de colunas: "+j+"\n");
-        
-        TADMatriz matriz = new TADMatriz(i,j);
-        int countI=1,countJ=1;
-        for (String lineResult : result) {
-            line = lineResult.split("\\s+");
-            for (String cell : line) 
-                if(!cell.isEmpty()){
-                    matriz.setElem(countI, countJ, Float.parseFloat(cell));
-                    countJ++;
-                }
-            countJ=1;
-            countI++;
+        TADMatriz m = new TADMatriz(l, c);
+        int posList = 0;
+        for(int i=0; i<l; i++){
+            for(int j=0; j<c; j++){
+                Float num = Float.parseFloat(lista.get(posList));
+                m.setElem(i, j, num);
+                posList++;
+            }
         }
-        
-        return matriz;
-        
+        return m;   
     }
     
     public String salva(String nome_arq) throws IOException{
         /*
-        salva a matriz corrente (this) em um arquivo texto de nome nome_arq cada linha do arquivo deve ser uma linha da matriz
+        salva a matriz corrente (this) em um arquivo texto de nome nome_arq 
+        cada linha do arquivo deve ser uma linha da matriz
+        
         */
         BufferedWriter bufferWriter = new BufferedWriter(new FileWriter(nome_arq, true));
         String line;
         for(int i=1;i<=this.quantLinhas();i++){
             line = "";
             for(int j=1;j<=this.quantColunas();j++){
+                if(this.getElem(i, j)==null) continue;
                 line += this.getElem(i, j)+" ";
             }
             line += "\n";
