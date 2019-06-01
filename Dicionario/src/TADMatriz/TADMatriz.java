@@ -13,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -21,7 +23,6 @@ import java.util.Scanner;
  * @author Salzman
  */
 public class TADMatriz {
-    Float mat[][];
     int linhas;
     int colunas;
     TADDicChain dicDados;
@@ -29,8 +30,7 @@ public class TADMatriz {
     public TADMatriz(int linhas, int colunas){
         this.linhas=linhas;
         this.colunas=colunas;
-        this.mat=cria_mat(linhas, colunas);
-        dicDados = new TADDicChain();
+        dicDados = new TADDicChain(null);
     }
     
     public int quantLinhas(){
@@ -40,20 +40,6 @@ public class TADMatriz {
     public int quantColunas(){
         return colunas;
     }
-    
-    
-    
-    public Float[][] cria_mat(int linhas, int colunas){
-        mat = new Float[linhas][colunas];
-        
-        for(int i=0;i<linhas;i++){
-            for(int j=0;j<colunas;j++){
-                mat[i][j]= null;
-            }
-        }
-        return mat;
-    }
-    
     
     public void imprimeMatriz() {
         for(int i=1; i<=this.linhas; i++){
@@ -127,12 +113,12 @@ public class TADMatriz {
     
     public Float setElem(int i, int j, Float valor){
         if(isValidoP(i, j)){
-            String chave = i+";"+j;
+            String key = i+"|"+j;
             
             if(valor!=0F)
-                dicDados.insertItem(chave, valor);
+                dicDados.insertItem(key, valor);
             else
-                dicDados.insertItem(chave, null);
+                dicDados.insertItem(key, null);
         }
         return valor;     
     }
@@ -154,12 +140,13 @@ public class TADMatriz {
     }
     
     public void vezesK(float k){
-        float produto;
-        for(int i=0; i<this.quantLinhas(); i++){
-            for(int j=0; j<this.quantColunas(); j++){
-                produto=(this.getElem(i,j)*k);
-                this.setElem(i,j,produto);
-            }
+        LinkedList<String> posicoes = dicDados.keys();
+        for (String chave : posicoes) {
+            
+            int i = Integer.parseInt(chave.substring(0, 1));
+            int j = Integer.parseInt(chave.substring(2, 3));
+            Float valor = getElem(i,j);
+            this.setElem(i,j, valor*k);
         }          
     }
     public TADMatriz multi(TADMatriz m){
@@ -241,5 +228,4 @@ public class TADMatriz {
         bufferWriter.close();
         return nome_arq;
     }
-      
 }

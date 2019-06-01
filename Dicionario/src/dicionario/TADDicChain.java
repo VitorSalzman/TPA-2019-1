@@ -40,25 +40,25 @@ public class TADDicChain {
         
     }
     
-    public TADDicChain(Hash_engine h){
+    public TADDicChain(){
         int tam = 1024;
         vetBuckets = new LinkedList[tam];
         
         for(int i=0;i<tam;i++){
             vetBuckets[i] = new LinkedList<TDicItem>();
         }
-        
-        he = h;
+        he = new HashEngineDefault();
     }
     
-    public TADDicChain(){
-        int tam = 100;
+    public TADDicChain(Hash_engine he){
+        int tam = 1024;
         vetBuckets = new LinkedList[tam];
         
         for(int i=0;i<tam;i++){
             vetBuckets[i] = new LinkedList<TDicItem>();
         }
-        he = new HashEngineDefault();
+        if(he == null) this.he = new HashEngineDefault();
+        else this.he=he;
     }
     
     private int buscaDicItem(LinkedList<TDicItem> lst, Object o){
@@ -227,44 +227,37 @@ public class TADDicChain {
     } 
      
     
-    public LinkedList<Object> keys(){
-        if(quant_entradas == 0){
-            return null;
-        }
-        else {
-            LinkedList<Object> i = new LinkedList<Object>();
+    public LinkedList keys(){
+        LinkedList<TDicItem> itens = getItens(); 
+        LinkedList chaves = null;
+        
+        
+        if(!isEmpty()){
+            chaves = new LinkedList();
             
-            for(int posVet = 0; posVet < vetBuckets.length; posVet++) {
-                if(vetBuckets[posVet].size() > 0) {
-                    for(int posList = 0; posList < vetBuckets[posVet].size(); posList++) {
-                        i.add(((TDicItem)vetBuckets[posVet].get(posList)).getKey());
-                    } 
-                } 
-            } 
-            return i;
-        }    
+            for(TDicItem it : itens){
+                chaves.add(it.getKey());
+            }
+        }
+        return chaves;   
     } 
     
-    public LinkedList<TDicItem> elements() {
-        LinkedList<TDicItem> i = new LinkedList<TDicItem>();
+    public LinkedList<Object> elements() {
+        LinkedList<TDicItem> itens = getItens(); 
+        LinkedList elems = null;
         
-        if(isEmpty()) {
-            return i;
-        }
-        else {
-            for(int posVet = 0; posVet < getSizeVetBuckets(); posVet++) {
-                if(vetBuckets[posVet].size() > 0) {
-                    for(int posList = 0; posList < vetBuckets[posVet].size(); posList++) {
-                        i.add(((TDicItem)vetBuckets[posVet].get(posList)));
-                    }
-                }
-            }
+        
+        if(!isEmpty()){
+            elems = new LinkedList();
             
-            return i;
+            for(TDicItem it : itens){
+                elems.add(it.getDado());
+            }
         }
+        return elems;
     }
     
-    public LinkedList<Object> getItens() {
+    public LinkedList getItens() {
         LinkedList<Object> i = new LinkedList<Object>();
         
         if(isEmpty()) {

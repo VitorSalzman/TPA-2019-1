@@ -20,7 +20,7 @@ public class Apmattpa {
     public static void main(String[] args) throws FileNotFoundException, IOException{
         
         String nome_arq = "bdaritmat.csv";
-        String caminho_arq = "C:\\Users\\vitorsalzman\\Documents\\GitHub\\TPA-2019-1\\Dicionario\\src\\aplicacao\\bdmatrizes\\";
+        String caminho_arq = "C:\\Users\\Salzman\\Documents\\GitHub\\TPA-2019-1\\Dicionario\\src\\aplicacao\\bdmatrizes\\";
         String arquivoMatriz;
         
         BufferedReader bufferReader = new BufferedReader(new FileReader(caminho_arq+nome_arq));

@@ -43,7 +43,7 @@ public class HashEngineDefault extends Hash_engine{
             soma = soma + (int)vetBytes[i];
             
         }
-        return soma;
+        return Math.abs(soma);
     
         
     }    
