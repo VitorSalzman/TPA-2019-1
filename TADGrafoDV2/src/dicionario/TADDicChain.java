@@ -16,77 +16,7 @@ import java.util.LinkedList;
  * @author vitorsalzman
  */
 
-class HashEngineDefault extends hash_engine{
-    public long hash_func(Object o){
-        long soma=0;
-        
-        ByteArrayOutputStream bit = new ByteArrayOutputStream();
-        ObjectOutput out = null;
-        byte[] vetBytes = null;
-        
-        try{
-            try{
-                out = new ObjectOutputStream(bit);
-                out.writeObject(o);
-                out.flush();
-                vetBytes = bit.toByteArray();
-            } catch(IOException e){
-                e.printStackTrace();
-            }
-            
-        } finally{
-            try{
-                bit.close();
-            } catch(IOException ex){
-            }
-        }    
-         
-        for(int i=0;i<vetBytes.length;i++){
-            soma = soma + (int)vetBytes[i];
-            
-        }
-        return soma;
-    
-        
-    }    
-    
-}
-class TDicItem {
-        private Object key;
-        private Object dado;
-        private long HashCache;
-        
-        public TDicItem(Object k, Object d){
-            this.key = k;
-            this.dado = d;
-        }
-        
-        public Object getKey(){
-            return key;
-        }
-        
-        public void setKey(Object o){
-            this.key = o;
-        }
-        
-        public void setDado(Object o){
-            this.dado = o;
-        }
-        
-        public Object getDado(){
-            return dado;
-        }
-        
-        public long getCache(){
-            return HashCache;
-        }
-        
-        public void setCache(long cache){
-            this.HashCache = cache;
-        }
-        /**************mexendo aqui******************/
 
-} 
 
 public class TADDicChain {
     
@@ -95,7 +25,7 @@ public class TADDicChain {
     private LinkedList[] vetBuckets = null;
     private double fator_carga = 0.75;
     private int quant_entradas = 0;
-    private hash_engine he = null;
+    private Hash_engine he = null;
     private boolean achou = false;
     
     public TADDicChain(int quantEntradas){
@@ -110,25 +40,25 @@ public class TADDicChain {
         
     }
     
-    public TADDicChain(hash_engine h){
-        int tam = 100;
-        vetBuckets = new LinkedList[tam];
-        
-        for(int i=0;i<tam;i++){
-            vetBuckets[i] = new LinkedList<TDicItem>();
-        }
-        
-        he = h;
-    }
-    
     public TADDicChain(){
-        int tam = 100;
+        int tam = 1024;
         vetBuckets = new LinkedList[tam];
         
         for(int i=0;i<tam;i++){
             vetBuckets[i] = new LinkedList<TDicItem>();
         }
         he = new HashEngineDefault();
+    }
+    
+    public TADDicChain(Hash_engine he){
+        int tam = 1024;
+        vetBuckets = new LinkedList[tam];
+        
+        for(int i=0;i<tam;i++){
+            vetBuckets[i] = new LinkedList<TDicItem>();
+        }
+        if(he == null) this.he = new HashEngineDefault();
+        else this.he=he;
     }
     
     private int buscaDicItem(LinkedList<TDicItem> lst, Object o){
@@ -297,23 +227,55 @@ public class TADDicChain {
     } 
      
     
-    public LinkedList<Object> keys(){///refazer
-        if(quant_entradas == 0){
-            return null;
+    public LinkedList keys(){
+        LinkedList<TDicItem> itens = getItens(); 
+        LinkedList chaves = null;
+        
+        
+        if(!isEmpty()){
+            chaves = new LinkedList();
+            
+            for(TDicItem it : itens){
+                chaves.add(it.getKey());
+            }
+        }
+        return chaves;   
+    } 
+    
+    public LinkedList<Object> elements() {
+        LinkedList<TDicItem> itens = getItens(); 
+        LinkedList elems = null;
+        
+        
+        if(!isEmpty()){
+            elems = new LinkedList();
+            
+            for(TDicItem it : itens){
+                elems.add(it.getDado());
+            }
+        }
+        return elems;
+    }
+    
+    public LinkedList getItens() {
+        LinkedList<Object> i = new LinkedList<Object>();
+        
+        if(isEmpty()) {
+            return i;
         }
         else {
-            LinkedList<Object> i = new LinkedList<Object>();
-            
-            for(int posVet = 0; posVet < vetBuckets.length; posVet++) {
+            for(int posVet = 0; posVet < getSizeVetBuckets(); posVet++) {
                 if(vetBuckets[posVet].size() > 0) {
                     for(int posList = 0; posList < vetBuckets[posVet].size(); posList++) {
-                        i.add(((TDicItem)vetBuckets[posVet].get(posList)).getKey());
-                    } 
-                } 
-            } 
+                        i.add(((TDicItem)vetBuckets[posVet].get(posList)).getDado());
+                    }
+                }
+            }
+            
             return i;
-        } // else {   
-    } 
+        }
+    }
+    
     
      public TADDicChain clone() {
         TADDicChain dicClone = new TADDicChain(he);
@@ -329,5 +291,15 @@ public class TADDicChain {
         return dicClone;
     }
     
+     public LinkedList<Integer> getVetColisoes(){
+         LinkedList<Integer> list = new LinkedList();
+         for(int i=0; i<this.getSizeVetBuckets(); i++){
+             list.add(vetBuckets[i].size());
+         }
+         
+         return list;
+     }
+     
+     
     
 }

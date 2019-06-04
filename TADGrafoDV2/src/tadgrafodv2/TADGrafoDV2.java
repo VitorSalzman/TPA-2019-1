@@ -19,10 +19,10 @@ public class TADGrafoDV2 {
     private int quantVertx = 0;
     private int quantEdges = 0;
     private int geraIDedge = 1;
-    private int geraIDvertex = 1;
+    private int geraIDvertex = 0;
     private int primeiroVertex = 0;
     private int ultimoVertex = 0;
-    private LinkedList lstDeletados = null;
+    private LinkedList<Integer> lstDeletados = null;
     TADDicChain dicLblVertex = new TADDicChain();
     TADDicChain dicLblEdge = new TADDicChain();
     
@@ -86,7 +86,6 @@ public class TADGrafoDV2 {
                             for(int m=0; m<lstE.size(); m++){
                                 e = (Edge)dicLblEdge.findElement(lstE.get(m));
                                 if(e.getId()==idEdge){
-                                   ///lblDestino = e.getLabel();
                                     lblEdge = e.getLabel();
                                     break;
                                 }
@@ -160,15 +159,73 @@ public class TADGrafoDV2 {
     }
     
     
+    public LinkedList<Edge> edges() {
+        LinkedList<Edge> listEdges = new LinkedList<Edge>();
+        LinkedList<Object> listKeys = dicLblEdge.keys();
+        
+        for(int i = 0; i < listKeys.size(); i++) {
+            Edge oE = (Edge)dicLblVertex.findElement(listKeys.get(i));
+            listEdges.add(oE);
+        }
+        
+        return listEdges;
+    }
     
-    public int[] endVertices(int e){
+    public LinkedList<Vertex> vertices() {
+        LinkedList<Vertex> listVertex = new LinkedList<Vertex>();
+        LinkedList<Object> listKeys = dicLblVertex.keys();
+        
+        for(int i = 0; i < listKeys.size(); i++) {
+            Vertex oV = (Vertex)dicLblVertex.findElement(listKeys.get(i));
+            listVertex.add(oV);
+        }
+        
+        return listVertex;
+    }
+    
+    public Vertex intToVertex(int id) {
+        LinkedList<Object> list = dicLblVertex.elements();
+        
+        for(int i=0; i<list.size(); i++) {
+            Vertex v = (Vertex)list.get(i);
+            if(id==v.getId()){
+                return v;
+            }
+        }
+        
+        return null;
+    }
+    
+    public Edge intToEdge(int id) {
+        LinkedList<Object> list = dicLblVertex.elements();
+        
+        for(int i=0; i<list.size(); i++) {
+            Edge e = (Edge)list.get(i);
+            if(id==e.getId()){
+                return e;
+            }
+        }
+        
+        return null;
+    }
+    
+    
+    public Vertex[] endVertices(String lblE){ //???????????????????
+        Edge oE = (Edge)dicLblEdge.findElement(lblE);
+        
+        if(dicLblEdge.NO_SUCH_KEY()) {
+            return null;
+        }
+        
+        int idE=oE.getId();
+        
         for(int i =primeiroVertex;i<=ultimoVertex;i++){
             if(valido(i)){
                 for(int k=primeiroVertex;k<=ultimoVertex;k++){
-                    if(mat[i][k] == e){
-                        int[] v = new int[2];
-                        v[0] = i;
-                        v[1] = k;
+                    if(mat[i][k] == idE){
+                        Vertex[] v = new Vertex[2];
+                        v[0] = intToVertex(i);
+                        v[1] = intToVertex(k);
                         return v;
                     }
                 }
@@ -351,7 +408,7 @@ public class TADGrafoDV2 {
         }
             
         if(idV == ultimoVertex){
-            for(int i=ultimoVertex-1; i>=primeiroVertex; i--){
+            for(int i=ultimoVertex+1; i>=primeiroVertex; i--){
                 if(!lstDeletados.contains(i)){
                     ultimoVertex = i;
                     break;
@@ -359,7 +416,7 @@ public class TADGrafoDV2 {
             }
         }
             
-        for(int i=primeiroVertex+1; i<=ultimoVertex; i++){
+        for(int i=primeiroVertex; i<=ultimoVertex; i++){
             if(mat[idV][i] != 0){
                 mat[idV][i]=0;
                 quantEdges--;
@@ -414,7 +471,7 @@ public class TADGrafoDV2 {
         
         return id;
     }
-
+//PAREI AQUI
     public LinkedList<Edge> outIncidentEdges(String label){
         Vertex v = (Vertex)dicLblVertex.findElement(label);
         if(dicLblVertex.NO_SUCH_KEY())return null;
@@ -432,8 +489,18 @@ public class TADGrafoDV2 {
             
     }
         
-    }
     
+    public Vertex destination(String lblE) { 
+        Vertex[] vet = endVertices(lblE);
+        
+        if(vet != null) {
+            return vet[1];
+        }
+        else {
+            return null;
+        }
+    }
+
     
     public LinkedList<Edge> incidentEdges(String label){
         LinkedList<Edge> list = inIncidentEdges(label);

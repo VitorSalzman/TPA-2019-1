@@ -9,7 +9,7 @@ package dicionario;
  *
  * @author Salzman
  */
-public abstract class hash_engine {
+public abstract class Hash_engine {
     public abstract long hash_func(Object o);
     
 }
