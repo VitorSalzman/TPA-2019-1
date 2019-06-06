@@ -15,6 +15,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        /*
         TADGrafoDV2 grafo = new TADGrafoDV2("grafo alfabético");
         
         grafo.insereVertex("A", "Primeiro Vertice");
@@ -32,7 +33,23 @@ public class Main {
         
         grafo.printmat();
         grafo.printgrafo();
+        */
         
+        String s = "tes1te";
+        String t = "teste1";
+        
+        if(s.matches("[A-Z a-z Çç]{"+s.length()+"}")){
+            System.out.println("s tem sim");
+        }
+        else{
+            System.out.println("s tem nao");
+        }    
+         if(t.matches("[A-Z a-z Çç]{"+s.length()+"}")){
+            System.out.println("t tem sim");
+        }
+        else{
+            System.out.println("t tem nao");    
+        }
         
         
         
