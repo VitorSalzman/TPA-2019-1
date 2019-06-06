@@ -51,8 +51,8 @@ public class Conversor {
         
     }
     private String nome_arq;
-    private  TADDicChain dicElements;
-    private TADDicChain dicRelationships;
+    public  TADDicChain dicElements = new TADDicChain();
+    public TADDicChain dicRelationships = new TADDicChain();
     private arrayAtoresF listAtoresF;
     private int geraID=0;
     public Conversor(String nome_arq){
@@ -61,7 +61,21 @@ public class Conversor {
     
     //retorna false caso a string possua algum caracter numérico.
     public boolean onlyChar(String s){
-        return s.matches("[A-Z a-z Çç]{"+s.length()+"}");
+        String o = "a a (a) 2";
+        /*if(o.matches("[A-Z a-z Çç]{"+o.length()+"}")){
+            System.out.println("true");
+            return true;
+        }*/
+        
+        for (int i = 0; i < s.length(); i++) {
+          if (Character.isDigit(s.charAt(i))==true)
+          {
+              System.out.println("Possui numeros");
+              return false;
+          }
+        }
+        
+        return true;
     }
     
     public int geraIDVertex(){
@@ -69,6 +83,13 @@ public class Conversor {
         return id;
     }
     
+    public LinkedList filmesEAtores(){
+        return dicElements.keys();
+    }
+    
+    public LinkedList relacionamentos(){
+        return dicRelationships.keys();
+    }
     public void converte(String nomearq) throws FileNotFoundException{
         File arq = new File (nomearq);
         Scanner s = new Scanner(arq);
@@ -87,18 +108,32 @@ public class Conversor {
             
              
             for (int i = 0; i < vet.length; i++){ 
-                dicElements.insertItem(vet[i], geraIDVertex()); // Insere item de chave filme/ator e valor id;
+               // System.out.println(vet[i]);
+                Integer intAux = (Integer) dicElements.findElement(vet[i]);
+                if(dicElements.NO_SUCH_KEY()){
+                    dicElements.insertItem(vet[i], geraIDVertex()); // Insere item de chave filme/ator e valor id;
+                }
+                else{
+                    listAtoresF.getList().add(intAux);
+                    
+                    
+                }
                 if (!vet[i].isEmpty()){
-                    if(!onlyChar(vet[i])){ //Se for filme...
-                        if(listAtoresF.getList()!=null){
-                            dicRelationships.insertItem(listAtoresF.getNome(), listAtoresF.getList()); 
-                        } // Adiciona o relacionamento filme_atores no dicionario de relacionamentos
-                        atores.removeAll(atores); //esvazia a lista de relacionamentos para novos inserts
-                        listAtoresF.setNome(vet[i]); //Renomeia a lista de relacionamentos para o novo filme encontrado;
-                        
+                    
+                    if(onlyChar(vet[i])){ //FALTA VERIFIFICAR SE O ATOR JÁ ESTEVE EM FILMES ENCONTRADOS ANTES DESSE
+                        //System.out.println(vet[i]);
+                        listAtoresF.getList().add(intAux); //adiciona o ator encontrado à lista do filme vinculado a este.
                     }
-                    else{ //FALTA VERIFIFICAR SE O ATOR JÁ ESTEVE EM FILMES ENCONTRADOS ANTES DESSE
-                        listAtoresF.getList().add(vet[i]); //adiciona o ator encontrado à lista do filme vinculado a este.
+                    else{ //Se for filme... 
+                        //System.out.println(vet[i]);
+                        if(listAtoresF.getNome()!=null){
+                            dicRelationships.insertItem(listAtoresF.getNome(), listAtoresF.getList()); 
+                            atores.removeAll(atores); //esvazia a lista de relacionamentos para novos inserts
+                            listAtoresF.setNome(vet[i]); //Renomeia a lista de relacionamentos para o novo filme encontrado;
+                        } // Adiciona o relacionamento filme_atores no dicionario de relacionamentos
+                        else{
+                            listAtoresF.setNome(vet[i]);
+                        }
                     }
                 }
                 else{

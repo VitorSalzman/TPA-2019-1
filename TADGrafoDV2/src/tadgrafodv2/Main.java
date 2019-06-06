@@ -5,6 +5,10 @@
  */
 package tadgrafodv2;
 
+import Conversor.Conversor;
+import java.io.FileNotFoundException;
+import java.util.LinkedList;
+
 /**
  *
  * @author Salzman
@@ -14,7 +18,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         /*
         TADGrafoDV2 grafo = new TADGrafoDV2("grafo alfabético");
         
@@ -38,17 +42,23 @@ public class Main {
         String s = "tes1te";
         String t = "teste1";
         
-        if(s.matches("[A-Z a-z Çç]{"+s.length()+"}")){
-            System.out.println("s tem sim");
-        }
-        else{
-            System.out.println("s tem nao");
-        }    
-         if(t.matches("[A-Z a-z Çç]{"+s.length()+"}")){
-            System.out.println("t tem sim");
-        }
-        else{
-            System.out.println("t tem nao");    
+        String nome_arq = "moviestest.txt";
+        String caminho_arq = "C:\\Users\\Salzman\\Documents\\GitHub\\TPA-2019-1\\TADGrafoDV2\\src\\tadgrafodv2\\";
+        LinkedList filmesatores = new LinkedList();
+        LinkedList relacionamentos = new LinkedList();
+        Conversor conv = new Conversor(caminho_arq+nome_arq);
+        conv.converte(caminho_arq+nome_arq);
+        
+        filmesatores=conv.filmesEAtores();
+       /* for(int i=0; i<filmesatores.size();i++){
+            System.out.println("Key "+i+": "+filmesatores.get(i));
+            
+        }*/
+        
+        relacionamentos=conv.relacionamentos();
+        for(int i=0; i<relacionamentos.size();i++){
+            System.out.println("Relação "+i+": "+relacionamentos.get(i));
+            
         }
         
         

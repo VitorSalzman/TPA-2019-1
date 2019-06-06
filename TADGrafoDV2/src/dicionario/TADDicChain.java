@@ -227,37 +227,27 @@ public class TADDicChain {
     } 
      
     
-    public LinkedList keys(){
-        LinkedList<TDicItem> itens = getItens(); 
+    public LinkedList keys(){ 
         LinkedList chaves = null;
         
         
         if(!isEmpty()){
             chaves = new LinkedList();
             
-            for(TDicItem it : itens){
-                chaves.add(it.getKey());
+            for(int posVet = 0; posVet < getSizeVetBuckets(); posVet++) {
+                if(vetBuckets[posVet].size() > 0) {
+                    for(int posList = 0; posList < vetBuckets[posVet].size(); posList++) {
+                        chaves.add(((TDicItem)vetBuckets[posVet].get(posList)).getKey());
+                    }
+                }
             }
         }
         return chaves;   
     } 
     
-    public LinkedList<Object> elements() {
-        LinkedList<TDicItem> itens = getItens(); 
-        LinkedList elems = null;
-        
-        
-        if(!isEmpty()){
-            elems = new LinkedList();
-            
-            for(TDicItem it : itens){
-                elems.add(it.getDado());
-            }
-        }
-        return elems;
-    }
     
-    public LinkedList getItens() {
+    
+    public LinkedList getElements() {
         LinkedList<Object> i = new LinkedList<Object>();
         
         if(isEmpty()) {
