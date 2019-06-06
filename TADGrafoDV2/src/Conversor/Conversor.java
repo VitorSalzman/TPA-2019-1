@@ -97,7 +97,7 @@ public class Conversor {
                         listAtoresF.setNome(vet[i]); //Renomeia a lista de relacionamentos para o novo filme encontrado;
                         
                     }
-                    else{
+                    else{ //FALTA VERIFIFICAR SE O ATOR JÁ ESTEVE EM FILMES ENCONTRADOS ANTES DESSE
                         listAtoresF.getList().add(vet[i]); //adiciona o ator encontrado à lista do filme vinculado a este.
                     }
                 }
