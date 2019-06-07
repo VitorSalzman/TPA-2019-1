@@ -43,7 +43,7 @@ public class Main {
         String t = "teste1";
         
         String nome_arq = "moviestest.txt";
-        String caminho_arq = "C:\\Users\\Salzman\\Documents\\GitHub\\TPA-2019-1\\TADGrafoDV2\\src\\tadgrafodv2\\";
+        String caminho_arq = "C:\\Users\\20161bsi0403\\Documents\\GitHub\\TPA-2019-1\\TADGrafoDV2\\src\\tadgrafodv2\\";
         LinkedList filmesatores = new LinkedList();
         LinkedList relacionamentos = new LinkedList();
         Conversor conv = new Conversor(caminho_arq+nome_arq);

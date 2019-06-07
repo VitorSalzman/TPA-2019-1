@@ -53,7 +53,7 @@ public class Conversor {
     private String nome_arq;
     public  TADDicChain dicElements = new TADDicChain();
     public TADDicChain dicRelationships = new TADDicChain();
-    private arrayAtoresF listAtoresF;
+    private arrayAtoresF IDAtoresF;
     private int geraID=0;
     public Conversor(String nome_arq){
         this.nome_arq=nome_arq;
@@ -94,8 +94,7 @@ public class Conversor {
         File arq = new File (nomearq);
         Scanner s = new Scanner(arq);
         String line;
-        ArrayList atores = new ArrayList();
-        listAtoresF = new arrayAtoresF(null);
+        IDAtoresF = new arrayAtoresF(null);
         
         
         while(s.hasNextLine()) {  
@@ -113,28 +112,23 @@ public class Conversor {
                 if(dicElements.NO_SUCH_KEY()){
                     dicElements.insertItem(vet[i], geraIDVertex()); // Insere item de chave filme/ator e valor id;
                 }
-                else{
-                    listAtoresF.getList().add(intAux);
-                    
-                    
-                }
                 if (!vet[i].isEmpty()){
-                    
-                    if(onlyChar(vet[i])){ //FALTA VERIFIFICAR SE O ATOR JÁ ESTEVE EM FILMES ENCONTRADOS ANTES DESSE
-                        //System.out.println(vet[i]);
-                        listAtoresF.getList().add(dicElements.findElement(vet[i])); //adiciona o ator encontrado à lista do filme vinculado a este.
+                    if(onlyChar(vet[i])){  // Caso seja ator
+                        IDAtoresF.getList().add(dicElements.findElement(vet[i])); //adiciona o ator encontrado à lista do filme vinculado a este.
                     }
-                    else{ //Se for filme... 
-                        //System.out.println(vet[i]);
-                        if(listAtoresF.getNome()!=null){
-                            dicRelationships.insertItem(listAtoresF.getNome(), listAtoresF.getList()); 
-                            listAtoresF.getList().removeAll(listAtoresF.getList()); //esvazia a lista de relacionamentos para novos inserts
-                            listAtoresF.setNome(vet[i]); //Renomeia a lista de relacionamentos para o novo filme encontrado;
-                        } // Adiciona o relacionamento filme_atores no dicionario de relacionamentos
-                        else{
-                            listAtoresF.setNome(vet[i]);
-                        }
-                    }
+                    else{ //Caso seja filme 
+                        IDAtoresF.setNome(vet[i]); //Renomeia a lista de relacionamentos para o novo filme encontrado;
+                        dicRelationships.insertItem(IDAtoresF.getNome(), IDAtoresF.getList()); 
+                        IDAtoresF.getList().removeAll(IDAtoresF.getList()); //esvazia a lista de relacionamentos para novos inserts
+                        /*for(int j=0; j<dicRelationships.getSizeVetBuckets();j++){
+                            for(int k=0; k<dicRelationships.size();k++){
+                                System.out.println("Posição  "+i+": "+dicRelationships.findElement(vet[i]));
+                            }*/
+                                
+            
+                    }    
+                         // Adiciona o relacionamento filme_atores no dicionario de relacionamentos
+                       
                 }
                 else{
                     System.out.println("Vazio");
