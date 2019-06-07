@@ -70,7 +70,7 @@ public class Conversor {
         for (int i = 0; i < s.length(); i++) {
           if (Character.isDigit(s.charAt(i))==true)
           {
-              System.out.println("Possui numeros");
+              //System.out.println("Possui numeros");
               return false;
           }
         }
@@ -88,7 +88,7 @@ public class Conversor {
     }
     
     public LinkedList relacionamentos(){
-        return dicRelationships.keys();
+        return dicRelationships.getElements();
     }
     public void converte(String nomearq) throws FileNotFoundException{
         File arq = new File (nomearq);
@@ -122,13 +122,13 @@ public class Conversor {
                     
                     if(onlyChar(vet[i])){ //FALTA VERIFIFICAR SE O ATOR JÁ ESTEVE EM FILMES ENCONTRADOS ANTES DESSE
                         //System.out.println(vet[i]);
-                        listAtoresF.getList().add(intAux); //adiciona o ator encontrado à lista do filme vinculado a este.
+                        listAtoresF.getList().add(dicElements.findElement(vet[i])); //adiciona o ator encontrado à lista do filme vinculado a este.
                     }
                     else{ //Se for filme... 
                         //System.out.println(vet[i]);
                         if(listAtoresF.getNome()!=null){
                             dicRelationships.insertItem(listAtoresF.getNome(), listAtoresF.getList()); 
-                            atores.removeAll(atores); //esvazia a lista de relacionamentos para novos inserts
+                            listAtoresF.getList().removeAll(listAtoresF.getList()); //esvazia a lista de relacionamentos para novos inserts
                             listAtoresF.setNome(vet[i]); //Renomeia a lista de relacionamentos para o novo filme encontrado;
                         } // Adiciona o relacionamento filme_atores no dicionario de relacionamentos
                         else{

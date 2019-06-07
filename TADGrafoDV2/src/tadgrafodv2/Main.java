@@ -50,10 +50,10 @@ public class Main {
         conv.converte(caminho_arq+nome_arq);
         
         filmesatores=conv.filmesEAtores();
-       /* for(int i=0; i<filmesatores.size();i++){
+        for(int i=0; i<filmesatores.size();i++){
             System.out.println("Key "+i+": "+filmesatores.get(i));
             
-        }*/
+        }
         
         relacionamentos=conv.relacionamentos();
         for(int i=0; i<relacionamentos.size();i++){
