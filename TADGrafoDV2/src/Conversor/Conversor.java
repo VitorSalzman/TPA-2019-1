@@ -6,8 +6,11 @@
 package Conversor;
 
 import dicionario.TADDicChain;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.lang.Object;
 import java.util.LinkedList;
@@ -90,7 +93,38 @@ public class Conversor {
     public LinkedList relacionamentos(){
         return dicRelationships.getElements();
     }
-    public void converte(String nomearq) throws FileNotFoundException{
+    
+    private void write() throws IOException{
+        BufferedWriter bufferWriter = new BufferedWriter(new FileWriter("saidafinal.tgf", true));
+        String str;
+        LinkedList<Object> keys = new LinkedList<Object>();
+        
+        keys = dicElements.keys();
+        
+        for (Object object : keys) {
+            str = dicElements.findElement(object).toString()+" "+ object+"\n";
+            bufferWriter.write(str);
+        }
+        
+        bufferWriter.write("# \n");
+        
+        keys = dicRelationships.keys();
+        
+        for (Object object : keys) {
+            ArrayList<Integer> lista = (ArrayList<Integer>) dicRelationships.findElement(object);
+            
+            for (Integer cell : lista) {
+                str = dicElements.findElement(object).toString()+" "+cell.toString()+"\n";
+                bufferWriter.write(str);
+            }
+
+            
+        }
+        
+        bufferWriter.close();
+
+    }
+    public void converte(String nomearq) throws FileNotFoundException, IOException{
         File arq = new File (nomearq);
         Scanner s = new Scanner(arq);
         String line;
@@ -100,6 +134,7 @@ public class Conversor {
         while(s.hasNextLine()) {  
             line = s.nextLine(); 
             String[] vet = line.split("/");    //Separação de valores
+            
             
             
                
@@ -117,13 +152,12 @@ public class Conversor {
                         IDAtoresF.getList().add(dicElements.findElement(vet[i])); //adiciona o ator encontrado à lista do filme vinculado a este.
                     }
                     else{ //Caso seja filme 
+                        
+                        if(!IDAtoresF.getList().isEmpty()){
+                            dicRelationships.insertItem(IDAtoresF.getNome(), IDAtoresF.getList()); 
+                            IDAtoresF = new arrayAtoresF(null);
+                        }    
                         IDAtoresF.setNome(vet[i]); //Renomeia a lista de relacionamentos para o novo filme encontrado;
-                        dicRelationships.insertItem(IDAtoresF.getNome(), IDAtoresF.getList()); 
-                        IDAtoresF.getList().removeAll(IDAtoresF.getList()); //esvazia a lista de relacionamentos para novos inserts
-                        /*for(int j=0; j<dicRelationships.getSizeVetBuckets();j++){
-                            for(int k=0; k<dicRelationships.size();k++){
-                                System.out.println("Posição  "+i+": "+dicRelationships.findElement(vet[i]));
-                            }*/
                                 
             
                     }    
@@ -133,7 +167,20 @@ public class Conversor {
                 else{
                     System.out.println("Vazio");
                 }
-            }
-        } 
-    }        
+            
+                
+            }            
+            
+
+            
+        }
+        dicRelationships.insertItem(IDAtoresF.getNome(), IDAtoresF.getList()); 
+        
+       write();
+        
+        
+
+        
+    }
+        
 }

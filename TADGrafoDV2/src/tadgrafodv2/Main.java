@@ -7,6 +7,7 @@ package tadgrafodv2;
 
 import Conversor.Conversor;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 
 /**
@@ -18,7 +19,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, IOException {
         /*
         TADGrafoDV2 grafo = new TADGrafoDV2("grafo alfabético");
         
@@ -42,7 +43,7 @@ public class Main {
         String s = "tes1te";
         String t = "teste1";
         
-        String nome_arq = "moviestest.txt";
+        String nome_arq = "movies.txt";
         String caminho_arq = "C:\\Users\\20161bsi0403\\Documents\\GitHub\\TPA-2019-1\\TADGrafoDV2\\src\\tadgrafodv2\\";
         LinkedList filmesatores = new LinkedList();
         LinkedList relacionamentos = new LinkedList();
