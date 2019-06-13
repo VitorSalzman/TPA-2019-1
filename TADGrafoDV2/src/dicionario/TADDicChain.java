@@ -247,7 +247,7 @@ public class TADDicChain {
     
     
     
-    public LinkedList getElements() {
+    public LinkedList elements() {
         LinkedList<Object> i = new LinkedList<Object>();
         
         if(isEmpty()) {

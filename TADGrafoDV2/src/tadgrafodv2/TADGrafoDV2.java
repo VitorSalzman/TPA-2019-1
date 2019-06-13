@@ -119,6 +119,9 @@ public class TADGrafoDV2 {
         return quantVertx;
     }
     
+    public int[][] getMat(){
+        return this.mat;
+    }
     public int numEdges(){
         return quantEdges;
     }
@@ -513,8 +516,29 @@ public class TADGrafoDV2 {
         list.addAll(outIncidentEdges(v));
         return list;
     }
-    
-           
+    /*
+    public Edge[] incomingEdges(String inputVertex) {
+		Vertex v = (Vertex)dicLblVertex.findElement(inputVertex);
+                if(dicLblVertex.NO_SUCH_KEY())return null;
+		else {
+			LinkedList<Edge> incomingList = new LinkedList<Edge>();
+			for (int i = this.primeiroVertex; i<this.ultimoVertex; i++) {
+				int currentEdge = this.mat[i][v.getMat()];
+				if ( currentEdge != -1) {
+					Edge searchEdge = this.findEdgeIndex(currentEdge);
+					incomingList.add(searchEdge);
+				}
+			}
+			if (incomingList.size() > 0) {
+				return turnListEdgeInArray(incomingList);
+			}
+			else {
+				return null;
+			}
+		}
+		
+	}
+           */
 }
 
 
