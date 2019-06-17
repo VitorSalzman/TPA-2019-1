@@ -5,10 +5,52 @@
  */
 package tadgrafodv2;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  *
  * @author Salzman
  */
 public class ProcessaGrafo {
+    private TADGrafoDV2 grafo;
+    private LinkedList<Vertex> lstVertexGraph;
+    private LinkedList<Edge> lstEdgeGraph;
     
+    public ProcessaGrafo(TADGrafoDV2 grafo) {
+        this.grafo = grafo;
+        this.lstVertexGraph = this.grafo.vertices();
+        this.lstEdgeGraph = this.grafo.edges();
+    }
+    
+    public LinkedList<Vertex> bsf(String vertexLabel) {
+        Vertex mainVertex = this.grafo.getVertice(vertexLabel);
+        Queue fila = new LinkedList<Vertex>();
+        Queue filaSaida = new LinkedList<Vertex>();
+        
+        fila.add(mainVertex);
+        
+        while(!fila.isEmpty()) {
+            Vertex headQueue = (Vertex)fila.remove();
+            LinkedList<Vertex> destinyVertex = this.grafo.outAdjacenteVertices(headQueue.getLabel());
+            if(!destinyVertex.isEmpty()) {
+                if(!filaSaida.contains(headQueue)) {
+                    filaSaida.add(headQueue);
+                }
+                
+                for(Vertex destiny : destinyVertex) {
+                    if(!filaSaida.contains(destiny)) {
+                        fila.add(destiny);
+                    }
+                }
+            }
+            else {
+                if(!filaSaida.contains(headQueue))
+                    filaSaida.add(headQueue);
+            }
+        }
+        
+        return (LinkedList<Vertex>) filaSaida;
+        
+    }
 }
