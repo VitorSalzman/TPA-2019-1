@@ -161,6 +161,15 @@ public class TADGrafoDV2 {
         return null;
     }
     
+     public Vertex getVertice(String label) {
+        Vertex vertice = (Vertex)this.dicLblVertex.findElement(label);
+        if(dicLblVertex.NO_SUCH_KEY()) {
+            return null;
+        }
+        else {
+            return vertice;
+        }
+    }
     
     public LinkedList<Edge> edges() {
         LinkedList<Edge> listEdges = new LinkedList<Edge>();
@@ -364,6 +373,27 @@ public class TADGrafoDV2 {
         return e;
     }
     
+    public Vertex destination(String labelE) { 
+        Vertex[] vet = endVertices(labelE);
+        
+        if(vet != null) {
+            return vet[1];
+        }
+        else {
+            return null;
+        }
+    }
+    
+    public Vertex origin(String labelE) { 
+        Vertex[] vet = endVertices(labelE);
+        
+        if(vet != null) {
+            return vet[0];
+        }
+        else {
+            return null;
+        }
+    }
         
  
     
@@ -493,27 +523,73 @@ public class TADGrafoDV2 {
     }
         
     
-    public Vertex destination(String lblE) { 
-        Vertex[] vet = endVertices(lblE);
+    public LinkedList<Edge> inIncidentEdges(String labelV) { 
+        Vertex v = (Vertex)dicLblVertex.findElement(labelV);
         
-        if(vet != null) {
-            return vet[1];
-        }
-        else {
+        if(dicLblVertex.NO_SUCH_KEY()) {
             return null;
         }
+        
+        LinkedList<Edge> lst = new LinkedList<Edge>();
+        int id = v.getId();
+        
+        for(int i = primeiroVertex; i <= ultimoVertex; i++) {
+            if((!lstDeletados.contains(i)) && (mat[id][i] != 0)) {
+                lst.add(intToEdge(mat[id][i]));
+            }
+        }
+        
+        return null;
+    
     }
-
     
     public LinkedList<Edge> incidentEdges(String label){
         LinkedList<Edge> list = inIncidentEdges(label);
         list.addAll(outIncidentEdges(label));
-        return list;
         
+        return list;
     }
-    public LinkedList<Edge> adjacentVertices(Vertex v){
-        LinkedList<Edge> list = inIncidentEdges(v);
-        list.addAll(outIncidentEdges(v));
+    
+    public LinkedList<Vertex> inAdjacenteVertices(String labelV){ 
+        Vertex v = (Vertex)dicLblVertex.findElement(labelV);
+        
+        if(dicLblVertex.NO_SUCH_KEY()){
+            return null;
+        }
+        
+        LinkedList<Vertex> lstVertex = new LinkedList<Vertex>();
+        int id = v.getId();
+        
+        for(int i=primeiroVertex; i<=ultimoVertex; i++){
+            if((!lstDeletados.contains(i))&&(mat[i][id] != 0)){
+                lstVertex.add(intToVertex(i));
+            }
+        }
+        
+        return null;
+    }
+    
+    public LinkedList<Vertex> outAdjacenteVertices(String labelV){ 
+        Vertex v = (Vertex)dicLblVertex.findElement(labelV);
+        if(dicLblVertex.NO_SUCH_KEY()) {
+            return null;
+        }
+        
+        LinkedList<Vertex> lstOutVertex = new LinkedList<Vertex>();
+        int id = v.getId();
+        
+        for(int i=primeiroVertex; i<=ultimoVertex; i++){
+            if((!lstDeletados.contains(i))&&(mat[id][i]!=0)){
+                lstOutVertex.add(intToVertex(i));
+            }
+        }
+        
+        return lstOutVertex;
+    
+    }
+    public LinkedList<Edge> adjacentVertices(String labelV){
+        LinkedList<Edge> list = inIncidentEdges(labelV);
+        list.addAll(outIncidentEdges(labelV));
         return list;
     }
     /*
