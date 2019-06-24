@@ -1,0 +1,56 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package tadgrafodv3;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+/**
+ *
+ * @author Salzman
+ */
+public class ProcessaGrafo {
+    private TADGrafoDV3 grafo;
+    private LinkedList<Vertex> lstVertexGraph;
+    private LinkedList<Edge> lstEdgeGraph;
+    
+    public ProcessaGrafo(TADGrafoDV3 grafo) {
+        this.grafo = grafo;
+        this.lstVertexGraph = this.grafo.vertices();
+        this.lstEdgeGraph = this.grafo.edges();
+    }
+    
+    public LinkedList<Vertex> bsf(String vertexLabel) {
+        Vertex mainVertex = this.grafo.getVertex(vertexLabel);
+        Queue fila = new LinkedList<Vertex>();
+        Queue filaSaida = new LinkedList<Vertex>();
+        
+        fila.add(mainVertex);
+        
+        while(!fila.isEmpty()) {
+            Vertex headQueue = (Vertex)fila.remove();
+            LinkedList<Vertex> destinyVertex = this.grafo.outAdjacenteVertices(headQueue.getLabel());
+            if(!destinyVertex.isEmpty()) {
+                if(!filaSaida.contains(headQueue)) {
+                    filaSaida.add(headQueue);
+                }
+                
+                for(Vertex destiny : destinyVertex) {
+                    if(!filaSaida.contains(destiny)) {
+                        fila.add(destiny);
+                    }
+                }
+            }
+            else {
+                if(!filaSaida.contains(headQueue))
+                    filaSaida.add(headQueue);
+            }
+        }
+        
+        return (LinkedList<Vertex>) filaSaida;
+        
+    }
+}
