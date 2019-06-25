@@ -53,4 +53,37 @@ public class ProcessaGrafo {
         return (LinkedList<Vertex>) filaSaida;
         
     }
+    
+    public LinkedList<Vertex> dsf(String vertexLabel) {
+        Vertex mainVertex = this.grafo.getVertice(vertexLabel);
+        LinkedList<Vertex> stack = new LinkedList<Vertex>();
+        LinkedList<Vertex> stackDFS = new LinkedList<Vertex>();
+        
+        stack.add(mainVertex);
+        
+        while(!stack.isEmpty()) {
+            Vertex headQueue = (Vertex)stack.remove();
+            LinkedList<Vertex> destinyVertex = this.grafo.outAdjacenteVertices(headQueue.getLabel());
+            if(!destinyVertex.isEmpty()) {
+                if(!stackDFS.contains(headQueue)) {
+                    stackDFS.add(headQueue);
+                }
+                
+                for(Vertex destiny : destinyVertex) {
+                    if(!stackDFS.contains(destiny)) {
+                        stack.add(destiny);
+                    }
+                }
+            }
+            else {
+                if(!stackDFS.contains(headQueue))
+                    stackDFS.add(headQueue);
+            }
+        }
+        
+        return (LinkedList<Vertex>) stackDFS;
+        
+    }
+    
+    
 }
