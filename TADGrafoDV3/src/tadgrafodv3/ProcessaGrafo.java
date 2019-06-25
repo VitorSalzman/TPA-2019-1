@@ -55,7 +55,7 @@ public class ProcessaGrafo {
     }
     
     public LinkedList<Vertex> dsf(String vertexLabel) {
-        Vertex mainVertex = this.grafo.getVertice(vertexLabel);
+        Vertex mainVertex = this.grafo.getVertex(vertexLabel);
         LinkedList<Vertex> stack = new LinkedList<Vertex>();
         LinkedList<Vertex> stackDFS = new LinkedList<Vertex>();
         

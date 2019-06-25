@@ -4,10 +4,11 @@ import java.util.LinkedList;
 
 import _my_tools.Comemora;
 import _my_tools.CoresConsole;
-import tadgrafodv2.Edge;
-import tadgrafodv2.TADGrafoDV3;
-import tadgrafodv2.ToGStream;
-import tadgrafodv2.Vertex;
+import java.io.IOException;
+import tadgrafodv3.Edge;
+import tadgrafodv3.TADGrafoDV3;
+import tadgrafodv3.ToGStream;
+import tadgrafodv3.Vertex;
 
 /**
  * @author ernani
@@ -25,11 +26,11 @@ import tadgrafodv2.Vertex;
  * 
  */
 public class GrafBenchmark {
-	public static void main(String args[]) {
-		String pasta_tgf = "/home/ernani/Dropbox/IFES-2019-1/Disciplinas/TPA/4-Grafos/";
+	public static void main(String args[]) throws IOException {
+		String pasta_tgf = "C:\\Users\\Salzman\\Documents\\GitHub\\TPA-2019-1\\TADGrafoDV3\\src\\Base-Grafos\\";
 		String nome_grafo_tgf = "tgfmovies10.txt";
 		String arq_grafo = pasta_tgf + nome_grafo_tgf;
-		TADGrafoDV3 g = TADGrafoDV3.carregaTGF(arq_grafo, 120000);	
+		TADGrafoDV3 g = TADGrafoDV3.carregaTGF(arq_grafo, 12000);	
 		
 		long tempoInicial = System.currentTimeMillis();
 		

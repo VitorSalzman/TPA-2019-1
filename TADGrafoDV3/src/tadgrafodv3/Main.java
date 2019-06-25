@@ -47,8 +47,8 @@ public class Main {
         String caminho_arq = "C:\\Users\\vitorsalzman\\Documents\\GitHub\\TPA-2019-1\\TADGrafoDV3\\src\\Conversor\\";
         LinkedList filmesatores = new LinkedList();
         LinkedList relacionamentos = new LinkedList();
-        Conversor conv = new Conversor(caminho_arq+nome_arq);
-        conv.converte(caminho_arq+nome_arq);
+        Conversor conv = new Conversor(caminho_arq,nome_arq);
+        
         
         filmesatores=conv.filmesEAtores();
         for(int i=0; i<filmesatores.size();i++){

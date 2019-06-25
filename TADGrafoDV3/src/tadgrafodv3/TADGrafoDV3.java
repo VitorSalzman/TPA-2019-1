@@ -3,12 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tadgrafodv2;
+package tadgrafodv3;
 
+import Conversor.Conversor;
 import java.util.LinkedList;
 import dicionario.TADDicChain;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
+import tadgrafodv3.Vertex;
 /**
  *
  * @author Salzman
@@ -28,6 +35,13 @@ public class TADGrafoDV3 {
     
     public TADGrafoDV3(String nome){
         mat = new int[16][16];
+        this.nome = nome;
+        
+        lstDeletados = new LinkedList();
+    }
+    
+    public TADGrafoDV3(String nome, int mat_tam){
+        mat = new int[mat_tam][mat_tam];
         this.nome = nome;
         
         lstDeletados = new LinkedList();
@@ -102,7 +116,7 @@ public class TADGrafoDV3 {
         
         for(int i=0; i<lstV.size(); i++){
             String lbl = (String)lstV.get(i);
-            if(Degree(lbl) == 0){
+            if(degree(lbl) == 0){
                 al.add(lbl);
             }
         }
@@ -130,6 +144,9 @@ public class TADGrafoDV3 {
         return((v >= primeiroVertex) && (v<=ultimoVertex) && !(lstDeletados.contains(v)));
     }
     
+    public Edge getEdge(String labelE){
+        return (Edge)dicLblEdge.findElement(labelE);
+    }
     
     public Edge getEdge(String origem, String destino){
         Vertex vD = (Vertex)dicLblVertex.findElement(destino);
@@ -251,7 +268,26 @@ public class TADGrafoDV3 {
         return null;
     }
     
-    public Vertex opposite(int v, int e){
+    public TADGrafoDV3 clone(){
+        TADGrafoDV3 clone = new TADGrafoDV3("grafo_c", this.numVertices());
+        LinkedList<Vertex> vertices = this.vertices();
+        for (Vertex vertice : vertices) {
+            clone.insereVertex(vertice.getLabel(), vertice.getDado());
+        }
+        for(int i = primeiroVertex; i <= ultimoVertex; i++){
+            for(int j = primeiroVertex; j <= ultimoVertex; j++){
+                if((mat[i][j] != 0) && (!lstDeletados.contains(i)));
+                    String origem = this.intToVertex(i).getLabel();
+                    String destino = this.intToVertex(j).getLabel();
+                    Edge edge = this.intToEdge(mat[i][j]);
+                    clone.insereEdge(origem, destino, edge.getLabel(), edge.getDado());
+                }
+            }
+        
+        return clone;
+    }
+    
+    public Vertex opposite(String v, String e){
         Vertex oV = (Vertex)dicLblVertex.findElement(v);
         if(dicLblVertex.NO_SUCH_KEY()){
             return null;
@@ -312,7 +348,7 @@ public class TADGrafoDV3 {
         }
     }
     
-    public Integer Degree(String l) {
+    public Integer degree(String l) {
         Integer in = inDegree(l);
         Integer out = outDegree(l);
         
@@ -475,7 +511,7 @@ public class TADGrafoDV3 {
         return dicLblVertex.removeElement(l);    
     }
     
-    public boolean areaAdjacent(int origem, int destino){
+    public boolean areAdjacent(String origem, String destino){
         Vertex vO = (Vertex)dicLblVertex.findElement(origem);
         if(dicLblVertex.NO_SUCH_KEY()) {
             return false;
@@ -519,7 +555,7 @@ public class TADGrafoDV3 {
         
         for(int i=primeiroVertex;i<=ultimoVertex;i++){
             if((!lstDeletados.contains(i)) && (mat[i][id] !=0)){
-                list.add(intToEdge(mat[i][id]));
+                list.add(intToEdge(mat[id][i]));
             }
         }    
         return list;
@@ -539,7 +575,7 @@ public class TADGrafoDV3 {
         
         for(int i = primeiroVertex; i <= ultimoVertex; i++) {
             if((!lstDeletados.contains(i)) && (mat[id][i] != 0)) {
-                lst.add(intToEdge(mat[id][i]));
+                lst.add(intToEdge(mat[i][id]));
             }
         }
         
@@ -591,15 +627,79 @@ public class TADGrafoDV3 {
         return lstOutVertex;
     
     }
-    public LinkedList<Edge> adjacentVertices(String labelV){
-        LinkedList<Edge> list = inIncidentEdges(labelV);
-        list.addAll(outIncidentEdges(labelV));
+    public LinkedList<Vertex> adjacentVertices(String labelV){
+        LinkedList<Vertex> list = inAdjacenteVertices(labelV);
+        list.addAll(outAdjacenteVertices(labelV));
         return list;
     }
     
+    public void converteCsvToTGF(String caminho_arq, String nome_arq) throws IOException{
+        Conversor converter = new Conversor(caminho_arq,nome_arq);
+        
+    }
     
+    /*public static TADGrafoDV3 carregaTGF(String nomearq, int mat_size){
+        TADGrafoDV3 graph = new TADGrafoDV3(nomearq, mat_size);
+        File arq = new File (nomearq);
+        Scanner s = new Scanner(nomearq);
+        String line;
+        boolean aresta = false;
+        
+        while(s.hasNextLine()) {  
+            line = s.nextLine();
+            if(line.contains("#")){
+                    aresta = true;
+                    line = s.nextLine();
+                }
+                String[] l = line.split(" ");
+                if(!aresta){    
+                    String value = "";
+                    for(int i=1;i<l.length;i++){
+                        value += " " + l[i];
+                    }
+                    graph.insereVertex(l[0], value);
+                }
+                else{
+                    String edgeLabel = l[0]+'-'+l[1];
+                    graph.insereEdge(l[0], l[1], edgeLabel, "");
+                }
+                
+            }
+            
+        return graph;
+    }*/
+    public static TADGrafoDV3 carregaTGF(String fileName, int matSize) throws IOException{
+            TADGrafoDV3 g = new TADGrafoDV3(fileName, matSize);
+        
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader arq = new BufferedReader(fileReader);
+            String line = arq.readLine();
+            boolean arestas = false;
+            
+            while(line != null){
+                if(line.contains("#")){
+                    arestas = true;
+                    line = arq.readLine();
+                }
+                String[] l = line.split(" ");
+                if(!arestas){    
+                    String value = "";
+                    for(int i=1;i<l.length;i++){
+                        value += " " + l[i];
+                    }
+                    g.insereVertex(l[0], value);
+                }
+                else{
+                    String edgeLabel = l[0]+'-'+l[1];
+                    g.insereEdge(l[0], l[1], edgeLabel, "");
+                }
+                line = arq.readLine();
+            }
+            arq.close();
+    return g;
+    }
 }
-
+  
 
 ///TO DO 
 ///public vertez insertVertex(String label, Object o)

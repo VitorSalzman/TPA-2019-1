@@ -26,6 +26,7 @@ public class Conversor {
     
     class arrayAtoresF{
         private String nome;
+        
         private ArrayList list;
         //aplicar geraID
         private arrayAtoresF(String nome){
@@ -53,13 +54,14 @@ public class Conversor {
         
         
     }
-    private String nome_arq;
+    
     public  TADDicChain dicElements = new TADDicChain();
     public TADDicChain dicRelationships = new TADDicChain();
     private arrayAtoresF IDAtoresF;
     private int geraID=0;
-    public Conversor(String nome_arq){
-        this.nome_arq=nome_arq;
+    public Conversor(String caminho_arq, String nome_arq) throws IOException{
+       
+        converte(caminho_arq+nome_arq);
     }
     
     public int geraIDVertex(){
@@ -115,11 +117,6 @@ public class Conversor {
         while(s.hasNextLine()) {  
             line = s.nextLine(); 
             String[] vet = line.split("/");    //Separação de valores
-            
-            
-            
-               
-            
             
              
             for (int i = 0; i < vet.length; i++){ 
