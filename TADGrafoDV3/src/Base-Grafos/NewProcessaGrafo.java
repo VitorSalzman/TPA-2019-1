@@ -12,12 +12,12 @@ import java.util.Queue;
  *
  * @author Salzman
  */
-public class ProcessaGrafo {
+public class NewProcessaGrafo {
     private TADGrafoDV3 grafo;
     private LinkedList<Vertex> lstVertexGraph;
     private LinkedList<Edge> lstEdgeGraph;
     
-    public ProcessaGrafo(TADGrafoDV3 grafo) {
+    public NewProcessaGrafo(TADGrafoDV3 grafo) {
         this.grafo = grafo;
         this.lstVertexGraph = this.grafo.vertices();
         this.lstEdgeGraph = this.grafo.edges();
@@ -84,19 +84,19 @@ public class ProcessaGrafo {
         return (LinkedList<Vertex>) stackDFS;
         
     }
-	/*
+	
 	private int[][] getBaseCost(){
 		// the adjacencyMatrix is the size of the number of vertices
-		int[][] adjacencyMatrixBase = new int[this.verticesGrafo.length][this.verticesGrafo.length];
+		int[][] adjacencyMatrixBase = new int[this.lstVertexGraph.size()][this.lstVertexGraph.size()];
 		int lineIndex = -1;
 		//is vertice out
-		for (Vertice verticeOut : this.verticesGrafo) {
+		for (Vertex verticeOut : lstVertexGraph){
 			lineIndex++;
 			int columnIndex = -1;
 			//is vertice In
-			for(Vertice verticeIn : this.verticesGrafo) {
+			for(Vertex verticeIn : lstVertexGraph) {
 				columnIndex++;
-				if(verticeOut.getIndexMatrix() != verticeIn.getIndexMatrix()) {
+				if(verticeOut.getId() != verticeIn.getId()) {
 					Edge currentEdge = this.grafo.getEdge(verticeOut.getLabel(),verticeIn.getLabel());
 					if(currentEdge != null) {
 						adjacencyMatrixBase[lineIndex][columnIndex] = currentEdge.getCost();
@@ -121,7 +121,7 @@ public class ProcessaGrafo {
 		int focusVertice = 0;
 		// represent the newest cost matrix
 		int[][] focusMatrix = null;
-		while(focusVertice < this.verticesGrafo.length){
+		while(focusVertice < this.lstVertexGraph.size()){
 			focusMatrix = this.makeLessValue(passedMatrix,focusVertice);
 			passedMatrix = focusMatrix;
 			focusVertice++;
@@ -130,8 +130,8 @@ public class ProcessaGrafo {
 	}
     
     private int[][] makeLessValue(int[][]martixPass,int focusIndex){
-		int[][] newValues = new int[this.verticesGrafo.length][this.verticesGrafo.length];
-		for(int i= 0; i < this.verticesGrafo.length; i++) {
+		int[][] newValues = new int[this.lstVertexGraph.size()][this.lstVertexGraph.size()];
+		for(int i= 0; i < this.lstVertexGraph.size(); i++) {
 			//case the interator is the same value of the focus we just need to change 1 parameter
 			if(focusIndex != i) {
 				newValues[focusIndex][i] = martixPass[focusIndex][i];
@@ -142,10 +142,10 @@ public class ProcessaGrafo {
 			}
 		}
 		// walking through the old matrix
-		for(int l = 0; l < this.verticesGrafo.length; l++) {
+		for(int l = 0; l < this.lstVertexGraph.size(); l++) {
 			// when is the line of the focus index we just pass by
 			if(l != focusIndex) {
-				for(int c = 0; c < this.verticesGrafo.length; c++) {
+				for(int c = 0; c < this.lstVertexGraph.size(); c++) {
 					// geting the cost of the 2 possibilitys
 					int onePass = martixPass[l][c];
 					int throughStepOne = martixPass[l][focusIndex];
@@ -169,8 +169,8 @@ public class ProcessaGrafo {
 	}
 
 	private int findIndexVerticeList(String labelVertice) {
-		for (int i = 0; i < this.verticesGrafo.length; i++) {
-			if(this.verticesGrafo[i].getLabel().equals(labelVertice)) {
+		for (int i = 0; i < this.lstVertexGraph.size(); i++) {
+			if(this.lstVertexGraph.get(i).getLabel().equals(labelVertice)) {
 				return i;
 			}
 		}
@@ -194,7 +194,7 @@ public class ProcessaGrafo {
 	
 	public int[] dijkstraCost(String beginVertice) {
 		// an arry with the cost and the vertice index ref.
-		int[]distance = new int[this.verticesGrafo.length];
+		int[]distance = new int[this.lstVertexGraph.size()];
 		String[] path = new String[distance.length];
 		String[] predecessor = new String[distance.length];
 		LinkedList<Integer> unvisited = new LinkedList<Integer>();
@@ -209,16 +209,16 @@ public class ProcessaGrafo {
 			unvisited.remove((Integer)currentIndex);
 			int[] distanceCurrent = distance.clone();
 			String[] pathCurrent = path.clone();
-			LinkedList<Vertice> connectionVertices = this.grafo.adjacenteVertices(this.verticesGrafo[currentIndex].getLabel());			
-			for (Vertice vertice : connectionVertices) {
-				boolean isEdgeNotNull = this.grafo.getEdge(this.verticesGrafo[currentIndex].getLabel(), vertice.getLabel()) != null;
+			LinkedList<Vertex> connectionVertices = this.grafo.adjacenteVertices(this.lstVertexGraph.get(currentIndex).getLabel());			
+			for (Vertex vertice : connectionVertices) {
+				boolean isEdgeNotNull = this.grafo.getEdge(this.lstVertexGraph.get(currentIndex).getLabel(), vertice.getLabel()) != null;
 				boolean isUnvisited = unvisited.contains((Integer)findIndexVerticeList(vertice.getLabel()));
 				if(isEdgeNotNull && isUnvisited) {
-					int costFromcurrent = this.grafo.getEdge(this.verticesGrafo[currentIndex].getLabel(), vertice.getLabel()).getCost() + distance[currentIndex];
+					int costFromcurrent = this.grafo.getEdge(this.lstVertexGraph.get(currentIndex).getLabel(), vertice.getLabel()).getCost() + distance[currentIndex];
 					int currentCost = distance[findIndexVerticeList(vertice.getLabel())];
 					if(currentCost > costFromcurrent) {
 						distanceCurrent[findIndexVerticeList(vertice.getLabel())] = costFromcurrent;
-						predecessor[findIndexVerticeList(vertice.getLabel())] = this.verticesGrafo[currentIndex].getLabel();
+						predecessor[findIndexVerticeList(vertice.getLabel())] = this.lstVertexGraph.get(currentIndex).getLabel();
 						pathCurrent[findIndexVerticeList(vertice.getLabel())] = path[currentIndex] +'-'+ vertice.getLabel();
 						 
 					}
@@ -235,7 +235,7 @@ public class ProcessaGrafo {
 	}
 
 	public int[] bellmanFord(String beginVertice) {
-		int[] costList = new int[this.verticesGrafo.length];
+		int[] costList = new int[this.lstVertexGraph.size()];
 		String[] predecessor = new String[costList.length];
 		String[] path = new String[costList.length];
 		for(int i = 0; i < costList.length; i++) {
@@ -244,7 +244,7 @@ public class ProcessaGrafo {
 		int indexSource = findIndexVerticeList(beginVertice);
 		costList[indexSource] = 0;
 		path[indexSource] = beginVertice;
-		for(int i = 0; i < (this.verticesGrafo.length - 1); i++) {
+		for(int i = 0; i < (this.lstVertexGraph.size()-1); i++) {
 			int[] interationCost = costList.clone();
 			for(int j = 0; j < interationCost.length; j++) {
 				if(interationCost[j] != Integer.MAX_VALUE) {
@@ -274,5 +274,5 @@ public class ProcessaGrafo {
 			}
 		}
 		return costList;
-	}*/
+	}
 }
