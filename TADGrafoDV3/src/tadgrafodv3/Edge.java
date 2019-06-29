@@ -12,6 +12,7 @@ package tadgrafodv3;
 public class Edge {
     private String label;
     private int id;
+    private int custo=-1;
     private Object dado;
     
     public Edge(String label, Object dado){
@@ -41,5 +42,13 @@ public class Edge {
 
     public void setDado(Object dado) {
         this.dado = dado;
+    }
+    
+    public int getCusto() {
+        return custo;
+    }
+
+    public void setCusto(int custo) {
+        this.custo = custo;
     }
 }

@@ -85,87 +85,84 @@ public class NewProcessaGrafo {
         
     }
 	
-	private int[][] getBaseCost(){
+	private int[][] custoBase(){
 		// the adjacencyMatrix is the size of the number of vertices
-		int[][] adjacencyMatrixBase = new int[this.lstVertexGraph.size()][this.lstVertexGraph.size()];
-		int lineIndex = -1;
-		//is vertice out
-		for (Vertex verticeOut : lstVertexGraph){
-			lineIndex++;
-			int columnIndex = -1;
-			//is vertice In
-			for(Vertex verticeIn : lstVertexGraph) {
-				columnIndex++;
-				if(verticeOut.getId() != verticeIn.getId()) {
-					Edge currentEdge = this.grafo.getEdge(verticeOut.getLabel(),verticeIn.getLabel());
-					if(currentEdge != null) {
-						adjacencyMatrixBase[lineIndex][columnIndex] = currentEdge.getCost();
+		int[][] matAdjacent = new int[this.lstVertexGraph.size()][this.lstVertexGraph.size()];
+		int l = -1;//id linha
+		
+                for(int i=0; i<lstVertexGraph.size(); i++){
+                        Vertex vetOut = lstVertexGraph.get(i);
+			l++;
+			int c = -1;
+			for(int j=0; j<lstVertexGraph.size(); j++){
+                                Vertex vetIn = lstVertexGraph.get(i);
+				c++;
+				if(vetOut.getId() != vetIn.getId()) {
+					Edge recent_edge = this.grafo.getEdge(vetOut.getLabel(),vetIn.getLabel());
+					if(recent_edge != null) {
+						matAdjacent[l][c] = recent_edge.getCusto();
 					}
 					else {
-						// for int values the equivalent to infinity is the MAX_VALUE, infinity value is only avalibe in double/float values
-						adjacencyMatrixBase[lineIndex][columnIndex] = Integer.MAX_VALUE;
+						
+						matAdjacent[l][c] = Integer.MAX_VALUE; // Define-se o equivalente a "Infinito" no java.
 					}
 				}
 				else {
-					adjacencyMatrixBase[lineIndex][columnIndex] =  0;
+					matAdjacent[l][c] =  0;
 				}
 			}
 		}
-		return adjacencyMatrixBase;
+		return matAdjacent;
 	}
 	
 	public int[][] floydWarshallCost() {
-		// represent the matrix used to build the new one, the focusMatrix 
-		int[][] passedMatrix = this.getBaseCost();
-		// we start in focus at the first vertice avalibe from the list and then we update the values until to the end
-		int focusVertice = 0;
-		// represent the newest cost matrix
-		int[][] focusMatrix = null;
-		while(focusVertice < this.lstVertexGraph.size()){
-			focusMatrix = this.makeLessValue(passedMatrix,focusVertice);
-			passedMatrix = focusMatrix;
-			focusVertice++;
+		int[][] base_mat = this.custoBase();
+		
+		int id_vertex = 0;
+		int[][] new_mat = null;
+                
+		while(id_vertex < this.lstVertexGraph.size()){
+			new_mat = this.geraMenorValor(base_mat,id_vertex);
+			base_mat = new_mat;
+			id_vertex++;
 		}
-		return focusMatrix;
+		return new_mat;
 	}
     
-    private int[][] makeLessValue(int[][]martixPass,int focusIndex){
-		int[][] newValues = new int[this.lstVertexGraph.size()][this.lstVertexGraph.size()];
-		for(int i= 0; i < this.lstVertexGraph.size(); i++) {
-			//case the interator is the same value of the focus we just need to change 1 parameter
-			if(focusIndex != i) {
-				newValues[focusIndex][i] = martixPass[focusIndex][i];
-				newValues[i][focusIndex] = martixPass[i][focusIndex];
-			}
-			else {
-				newValues[focusIndex][i] = martixPass[focusIndex][i];
+    private int[][] geraMenorValor(int[][] mat,int id_vertex){
+		int[][] mat_values = new int[this.lstVertexGraph.size()][this.lstVertexGraph.size()];
+                
+		for(int i=0; i <this.lstVertexGraph.size(); i++){
+			
+			mat_values[id_vertex][i] = mat[id_vertex][i];
+                        if(id_vertex != i){ //se i for diferente de id_vertex, muda-se os 2 valores
+                            mat_values[i][id_vertex] = mat[i][id_vertex];
 			}
 		}
-		// walking through the old matrix
-		for(int l = 0; l < this.lstVertexGraph.size(); l++) {
-			// when is the line of the focus index we just pass by
-			if(l != focusIndex) {
+                
+		for(int l=0; l<this.lstVertexGraph.size(); l++) {
+			if(l != id_vertex) {
 				for(int c = 0; c < this.lstVertexGraph.size(); c++) {
 					// geting the cost of the 2 possibilitys
-					int onePass = martixPass[l][c];
-					int throughStepOne = martixPass[l][focusIndex];
-					int throughStepTwo = martixPass[focusIndex][c];
+					int variavel_referencia = mat[l][c];
+					int variavelUm = mat[l][id_vertex];
+					int variavelDois = mat[id_vertex][c];
 					
-					// when we sum the max value with another value the data became negative
-					if( (throughStepOne == Integer.MAX_VALUE || throughStepTwo == Integer.MAX_VALUE) && onePass <= Integer.MAX_VALUE) {
-						newValues[l][c] = onePass;
+					
+					if((variavelUm==Integer.MAX_VALUE || variavelDois==Integer.MAX_VALUE)&& variavel_referencia <= Integer.MAX_VALUE) {
+						mat_values[l][c] = variavel_referencia;
 					}
-					else if(onePass < ( throughStepOne + throughStepTwo )) {
-						newValues[l][c] = onePass;
+					else if(variavel_referencia < ( variavelUm + variavelDois )) {//pega-se o menor valor
+						mat_values[l][c] = variavel_referencia;
 					}
 					else {
-						newValues[l][c] = throughStepOne + throughStepTwo;
+						mat_values[l][c] = variavelUm + variavelDois;
 					}
 					
 				}
 			}
 		}
-		return newValues;
+		return mat_values;
 	}
 
 	private int findIndexVerticeList(String labelVertice) {
