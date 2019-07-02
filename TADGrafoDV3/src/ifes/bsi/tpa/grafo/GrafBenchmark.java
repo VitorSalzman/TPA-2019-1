@@ -6,7 +6,8 @@ import _my_tools.Comemora;
 import _my_tools.CoresConsole;
 import java.io.IOException;
 import tadgrafodv3.Edge;
-import tadgrafodv3.TADGrafoDV3;
+import tadgrafodv3.ProcessaGrafo;
+import tadgrafodv3.TADGrafoD;
 import tadgrafodv3.ToGStream;
 import tadgrafodv3.Vertex;
 
@@ -27,10 +28,10 @@ import tadgrafodv3.Vertex;
  */
 public class GrafBenchmark {
 	public static void main(String args[]) throws IOException {
-		String pasta_tgf = "C:\\Users\\Salzman\\Documents\\GitHub\\TPA-2019-1\\TADGrafoDV3\\src\\Base-Grafos\\";
+		String pasta_tgf = "C:\\Users\\Salzman\\Documents\\GitHub\\TPA-2019-1\\TADGrafoDV3\\src\\basegrafos\\";
 		String nome_grafo_tgf = "tgfmovies10.txt";
 		String arq_grafo = pasta_tgf + nome_grafo_tgf;
-		TADGrafoDV3 g = TADGrafoDV3.carregaTGF(arq_grafo, 12000);	
+		TADGrafoD g = TADGrafoD.carregaTGF(arq_grafo, 1200);	
 		
 		long tempoInicial = System.currentTimeMillis();
 		
@@ -198,7 +199,7 @@ public class GrafBenchmark {
 		
 		/* Testando clonagem e igualdade. */
 		System.out.print("\nTestando clonagem..");
-		TADGrafoDV3 irmao = g.clone();
+		TADGrafoD irmao = g.clone();
 		if(irmao == null) {
 			System.err.println("\nErro! abortando benchmark: problemas com g.clone(<tad grafo>);");
 			System.exit(1);
@@ -265,6 +266,27 @@ public class GrafBenchmark {
 		System.out.println(CoresConsole.GREEN_BOLD);
 		System.out.println(Comemora.msgSuc2);
 		System.out.println(CoresConsole.RESET);
+                
+                
+                System.out.println("Testando Processa Grafo....");
+                ProcessaGrafo processaGrafo = new ProcessaGrafo(g);
+                
+                 System.out.println("bsf started");
+                LinkedList<Vertex> resultProcessa = processaGrafo.bsf("A");
+                for(Vertex result : resultProcessa) {
+                     System.out.print(result.getLabel()+ " ");
+                }
+                 System.out.println("");
+                 System.out.println("bsf concluído, ok.");
+                 System.out.println("");
+                 
+                System.out.println("dsf started"); 
+                LinkedList<Vertex> resultProcessa1 = processaGrafo.dsf("A");
+                for(Vertex result : resultProcessa1) {
+                    System.out.print(result.getLabel()+ " ");
+                }
+                System.out.println("");
+                System.out.println("bsf concluído, ok.");
 
 		System.out.print("Gerando GraphStream..");
 		ToGStream togs = new ToGStream(g,false,false,false);

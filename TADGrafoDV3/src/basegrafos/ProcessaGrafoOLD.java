@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tadgrafodv3;
+package basegrafos;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -12,7 +12,7 @@ import java.util.Queue;
  *
  * @author Salzman
  */
-public class ProcessaGrafo {
+public class ProcessaGrafoOLD {
     private TADGrafoDV3 grafo;
     private LinkedList<Vertex> lstVertexGraph;
     private LinkedList<Edge> lstEdgeGraph;

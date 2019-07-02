@@ -5,6 +5,8 @@
  */
 package tadgrafodv3;
 
+
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -12,12 +14,12 @@ import java.util.Queue;
  *
  * @author Salzman
  */
-public class NewProcessaGrafo {
-    private TADGrafoDV3 grafo;
+public class ProcessaGrafo {
+    private TADGrafoD grafo;
     private LinkedList<Vertex> lstVertexGraph;
     private LinkedList<Edge> lstEdgeGraph;
     
-    public NewProcessaGrafo(TADGrafoDV3 grafo) {
+    public ProcessaGrafo(TADGrafoD grafo) {
         this.grafo = grafo;
         this.lstVertexGraph = this.grafo.vertices();
         this.lstEdgeGraph = this.grafo.edges();
@@ -206,7 +208,7 @@ public class NewProcessaGrafo {
 			nao_visitado.remove((Integer)ind);
 			int[] intervalo_recente = intervalo.clone();
 			String[] caminho_recente = caminho.clone();
-			LinkedList<Vertex> relacoes_vertex = this.grafo.adjacenteVertices(this.lstVertexGraph.get(ind).getLabel());			
+			LinkedList<Vertex> relacoes_vertex = this.grafo.adjacentVertices(this.lstVertexGraph.get(ind).getLabel());			
 			for (Vertex vertice : relacoes_vertex) {
 				boolean edge_nao_nulo = this.grafo.getEdge(this.lstVertexGraph.get(ind).getLabel(), vertice.getLabel()) != null;
 				boolean is_naovisitado = nao_visitado.contains((Integer)getIndexVertex(vertice.getLabel()));
@@ -231,45 +233,45 @@ public class NewProcessaGrafo {
 		
 	}
 
-	public int[] bellmanFord(String beginVertice) {
-		int[] costList = new int[this.lstVertexGraph.size()];
-		String[] predecessor = new String[costList.length];
-		String[] path = new String[costList.length];
-		for(int i = 0; i < costList.length; i++) {
-			costList[i] = Integer.MAX_VALUE;
+	public int[] bellmanFord(String primeiroVertex) {
+		int[] array_custos = new int[this.lstVertexGraph.size()];
+		String[] p = new String[array_custos.length];
+		String[] caminho = new String[array_custos.length];
+		for(int i=0; i<array_custos.length; i++) { //modularizar
+			array_custos[i] = Integer.MAX_VALUE;
 		}
-		int indexSource = findIndexVerticeList(beginVertice);
-		costList[indexSource] = 0;
-		path[indexSource] = beginVertice;
-		for(int i = 0; i < (this.lstVertexGraph.size()-1); i++) {
-			int[] interationCost = costList.clone();
-			for(int j = 0; j < interationCost.length; j++) {
-				if(interationCost[j] != Integer.MAX_VALUE) {
-					Vertice currentVertice = this.verticesGrafo[j];
-					int currentIndex = findIndexVerticeList(currentVertice.getLabel());
-					LinkedList<Vertice> connections = this.grafo.adjacenteVertices(currentVertice.getLabel());
-					for(Vertice neighborV : connections) {
-						Edge linkVertices = this.grafo.getEdge(currentVertice.getLabel(), neighborV.getLabel());
-						if (linkVertices != null) {
-							int connectionCost = interationCost[currentIndex]+linkVertices.getCost();
-							boolean isConnectionSmaller = interationCost[findIndexVerticeList(neighborV.getLabel())] > connectionCost;
-							if(isConnectionSmaller) {
-								interationCost[findIndexVerticeList(neighborV.getLabel())] = connectionCost;
-								predecessor[findIndexVerticeList(neighborV.getLabel())] = this.verticesGrafo[currentIndex].getLabel();
-								path[findIndexVerticeList(neighborV.getLabel())] = path[currentIndex] +';'+ neighborV.getLabel();
+		int ind = getIndexVertex(primeiroVertex);
+		array_custos[ind] = 0;
+		caminho[ind] = primeiroVertex;
+		for(int i=0; i<(this.lstVertexGraph.size()-1); i++) {
+			int[] var_custo = array_custos.clone();
+			for(int j=0; j<var_custo.length; j++) {
+				if(var_custo[j] != Integer.MAX_VALUE) {
+					Vertex vertex_recente = this.lstVertexGraph.get(j);
+					int ind_recente = getIndexVertex(vertex_recente.getLabel());
+					LinkedList<Vertex> relacionamentos = this.grafo.adjacentVertices(vertex_recente.getLabel());
+					for(Vertex vertex_vizinho : relacionamentos) {
+						Edge link_vertex = this.grafo.getEdge(vertex_recente.getLabel(), vertex_vizinho.getLabel());
+						if (link_vertex != null) {
+							int custo_relacionamento = var_custo[ind_recente]+link_vertex.getCusto();
+							boolean menor_relacionamento = var_custo[getIndexVertex(vertex_vizinho.getLabel())] > custo_relacionamento;
+							if(menor_relacionamento) {
+								var_custo[getIndexVertex(vertex_vizinho.getLabel())] = custo_relacionamento;
+								p[getIndexVertex(vertex_vizinho.getLabel())] = this.lstVertexGraph.get(ind_recente).getLabel();
+								caminho[getIndexVertex(vertex_vizinho.getLabel())] = caminho[ind_recente] +';'+ vertex_vizinho.getLabel();
 							}
 						}
 					}
 				}
 			}
-			if(Arrays.equals(interationCost, costList)) {
-				costList = interationCost;
+			if(Arrays.equals(var_custo, array_custos)) {
+				array_custos = var_custo;
 				break;
 			}
 			else {
-				costList = interationCost;
+				array_custos = var_custo;
 			}
 		}
-		return costList;
+		return array_custos;
 	}
 }
