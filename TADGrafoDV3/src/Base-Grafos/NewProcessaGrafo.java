@@ -165,7 +165,7 @@ public class NewProcessaGrafo {
 		return mat_values;
 	}
 
-	private int findIndexVerticeList(String labelVertice) {
+	private int getIndexVertex(String labelVertice) {
 		for (int i = 0; i < this.lstVertexGraph.size(); i++) {
 			if(this.lstVertexGraph.get(i).getLabel().equals(labelVertice)) {
 				return i;
@@ -189,45 +189,46 @@ public class NewProcessaGrafo {
 		return indexSmaller;
 	}
 	
-	public int[] dijkstraCost(String beginVertice) {
+	public int[] dijkstraCost(String primeiroVertex) {
 		// an arry with the cost and the vertice index ref.
-		int[]distance = new int[this.lstVertexGraph.size()];
-		String[] path = new String[distance.length];
-		String[] predecessor = new String[distance.length];
-		LinkedList<Integer> unvisited = new LinkedList<Integer>();
 		for (int i = 0; i < distance.length; i++) {
-			distance[i] = Integer.MAX_VALUE;
-			unvisited.add(i);
+		int[]intervalo = new int[this.lstVertexGraph.size()];
+		String[] caminho = new String[intervalo.length];
+		String[] p = new String[intervalo.length];
+		LinkedList<Integer> nao_visitado = new LinkedList<Integer>();
+		for (int i = 0; i <p.length; i++) {
+			intervalo[i]=Integer.MAX_VALUE;
+			nao_visitado.add(i);
 		}
-		distance[findIndexVerticeList(beginVertice)] = 0;
-		int currentIndex = findIndexVerticeList(beginVertice);
-		path[currentIndex] = beginVertice;
-		while(unvisited.size() > 0) {
-			unvisited.remove((Integer)currentIndex);
-			int[] distanceCurrent = distance.clone();
-			String[] pathCurrent = path.clone();
-			LinkedList<Vertex> connectionVertices = this.grafo.adjacenteVertices(this.lstVertexGraph.get(currentIndex).getLabel());			
-			for (Vertex vertice : connectionVertices) {
-				boolean isEdgeNotNull = this.grafo.getEdge(this.lstVertexGraph.get(currentIndex).getLabel(), vertice.getLabel()) != null;
-				boolean isUnvisited = unvisited.contains((Integer)findIndexVerticeList(vertice.getLabel()));
-				if(isEdgeNotNull && isUnvisited) {
-					int costFromcurrent = this.grafo.getEdge(this.lstVertexGraph.get(currentIndex).getLabel(), vertice.getLabel()).getCost() + distance[currentIndex];
-					int currentCost = distance[findIndexVerticeList(vertice.getLabel())];
-					if(currentCost > costFromcurrent) {
-						distanceCurrent[findIndexVerticeList(vertice.getLabel())] = costFromcurrent;
-						predecessor[findIndexVerticeList(vertice.getLabel())] = this.lstVertexGraph.get(currentIndex).getLabel();
-						pathCurrent[findIndexVerticeList(vertice.getLabel())] = path[currentIndex] +'-'+ vertice.getLabel();
+                intervalo[getIndexVertex(primeiroVertex)]=0;
+		int ind = getIndexVertex(primeiroVertex);
+		caminho[ind] = primeiroVertex;
+		while(nao_visitado.size() > 0) {
+			nao_visitado.remove((Integer)ind);
+			int[] intervalo_recente = intervalo.clone();
+			String[] caminho_recente = caminho.clone();
+			LinkedList<Vertex> relacoes_vertex = this.grafo.adjacenteVertices(this.lstVertexGraph.get(ind).getLabel());			
+			for (Vertex vertice : relacoes_vertex) {
+				boolean edge_nao_nulo = this.grafo.getEdge(this.lstVertexGraph.get(ind).getLabel(), vertice.getLabel()) != null;
+				boolean is_naovisitado = nao_visitado.contains((Integer)getIndexVertex(vertice.getLabel()));
+				if(edge_nao_nulo && is_naovisitado) {
+					int custo_recente_orig = this.grafo.getEdge(this.lstVertexGraph.get(ind).getLabel(), vertice.getLabel()).getCusto() + intervalo[ind];
+					int custo_recente = intervalo[getIndexVertex(vertice.getLabel())];
+					if(custo_recente > custo_recente_orig) {
+						intervalo_recente[getIndexVertex(vertice.getLabel())] = custo_recente_orig;
+						p[getIndexVertex(vertice.getLabel())] = this.lstVertexGraph.get(ind).getLabel();
+						caminho_recente[getIndexVertex(vertice.getLabel())] = caminho[ind] +'-'+ vertice.getLabel();
 						 
 					}
 				}
 			}
-			distance = distanceCurrent;
-			path = pathCurrent;
-			if(unvisited.size() > 0) {
-				currentIndex = getIndexLessCost(distance,unvisited);
+			intervalo = intervalo_recente;
+			caminho = caminho_recente;
+			if(nao_visitado.size() > 0) {
+				ind = getIndexLessCost(intervalo,nao_visitado);
 			}
 		}
-		return distance;
+		return intervalo;
 		
 	}
 
