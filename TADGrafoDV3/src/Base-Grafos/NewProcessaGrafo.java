@@ -191,7 +191,6 @@ public class NewProcessaGrafo {
 	
 	public int[] dijkstraCost(String primeiroVertex) {
 		// an arry with the cost and the vertice index ref.
-		for (int i = 0; i < distance.length; i++) {
 		int[]intervalo = new int[this.lstVertexGraph.size()];
 		String[] caminho = new String[intervalo.length];
 		String[] p = new String[intervalo.length];
