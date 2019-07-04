@@ -33,4 +33,8 @@ public class DSFloydW extends DataSet {
     public LinkedList<Vertex> caminho(String origem, String destino) {
        return null;
     }
+    
+    public int[][] getCustos(){
+        return mat_custos;
+    }
 }
