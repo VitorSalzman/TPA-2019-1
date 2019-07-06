@@ -41,10 +41,11 @@ public class ProcessaArvore {
         if (root.getNumberOfChildren() !=0){
                 for(int i=0;i<root.getChildren().size();i++){
                     
-                    writeNode((Node) root.getChildren().get(i));         
+                    writeNode((Node) root.getChildren().get(i));
+                    //output += ",";
                 }
         }
-        
+        output=output.substring(0,output.length()-1);
         bufferWriter.write(output);
         bufferWriter.write(")");
         bufferWriter.write((String) root.getData());
@@ -60,7 +61,9 @@ public class ProcessaArvore {
                 output += "(";
                 for(int i=0;i<root.getNumberOfChildren();i++){
                     writeNode((Node) root.getChildren().get(i));
-                }  
+                }
+                Character c = output.charAt(output.length()-1);
+                if(c==',') output=output.substring(0,output.length()-1);
                 output += ")";
                 output+=(String) root.getData();
                 output += ",";              
