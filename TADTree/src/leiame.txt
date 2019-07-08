@@ -1,0 +1,9 @@
+Nome: Vitor Soares Salzman
+Matrícula : 20161bsi0403	
+
+Esse zip contém o src completo do projeto "TADTree", contendo todos os pacotes necessários para a execução do projeto.
+Basta colar a pasta dentro do diretório que precisa, para testá-lo
+
+O arquivo "benchTree" possui um caminho padrão registrado nas classes de arquivo. Ao utilizar em outra máquina, será necessário registrar o novo caminho.
+
+	OBSERVAÇÃO IMPORTANTE: O ARQUIVO CRIADO NO "SALVA_TREE" NÃO DEVE EXISTIR NO DIRETÓRIO(caso exista, deve-se apagá-lo, para evitar erro de indexação de Strings)
