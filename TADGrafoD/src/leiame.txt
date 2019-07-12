@@ -1,0 +1,10 @@
+o src completo foi compactado, contendo os pacotes:
+
+_my_tools - Contém arquivos necessários para desenhar o grafo em tela;
+aplicacao - Contém os arquivos de aplicação para teste do TADGrafoDV3 e ProcessaGrafo;
+basegrafos - Contém arquivos txt e tgf para testes.
+dicionario - Contém o TADDicChain, utilizado como apoio para o grafo;
+ifes.bsi.tpa.caminhamento - Contém os arquivos .java correspondentes à entrega de Caminhamento de TADGrafo;
+ifes.bsi.tpa.grafo - Contém os arquivos .java correspondentes à entrega do TADGrafoDV3;
+
+gs-core-1.3 - Arquivo .jar que contém as ferramentas de auxílio para desenho do grafo em tela.

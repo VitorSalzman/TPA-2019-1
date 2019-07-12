@@ -228,36 +228,24 @@ public class TADDicChain {
      
     
     public LinkedList<Object> keys(){
-        LinkedList<TDicItem> itens = getItens(); 
-        LinkedList chaves = null;
-        
-        
-        if(!isEmpty()){
-            chaves = new LinkedList();
-            
-            for(TDicItem it : itens){
-                chaves.add(it.getKey());
+        LinkedList<Object> chaves = new LinkedList();
+        for (LinkedList<TDicItem> buckets : this.vetBuckets) {
+            for (TDicItem filho : buckets) {
+                chaves.add((Object)filho.getKey());
             }
         }
-        return  chaves;   
-    } 
+        return chaves;
+    }
     
     public LinkedList<Object> elements(){
-        LinkedList<TDicItem> itens = getItens(); 
-        LinkedList elems = null;
-        
-        
-        if(!isEmpty()){
-            elems = new LinkedList();
-            
-            for(int i=0;i<itens.size();i++){
-                String s = (String)itens.get(i).getDado();
-                elems.add(s);
+        LinkedList<Object> valor = new LinkedList();
+        for (LinkedList<TDicItem> buckets : this.vetBuckets) {
+            for (TDicItem filho : buckets) {
+                valor.add(filho.getDado());
             }
-            
         }
-        return(LinkedList<Object>) elems;
-}
+        return valor;
+    }
     
     public LinkedList getItens() {
         LinkedList<Object> i = new LinkedList<Object>();

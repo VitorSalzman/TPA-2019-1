@@ -21,7 +21,7 @@ import java.util.LinkedList;
 public class GrafBenchmark {
 	public static void main(String args[]) throws IOException {
 //		String pasta_tgf = "/home/ernani/Dropbox/IFES-2019-1/Disciplinas/TPA/4-Grafos/";
-                String pasta_tgf = "C:\\Users\\Salzman\\Documents\\GitHub\\TADGrafoD\\src\\basegrafos\\";
+                String pasta_tgf = "C:\\Users\\Salzman\\Documents\\GitHub\\TPA-2019-1\\TADGrafoD\\src\\basegrafos\\";
 		String nome_grafo_tgf = "tgfmovies10.txt";
 		String arq_grafo = pasta_tgf + nome_grafo_tgf;
 		TADGrafoDV3 g = TADGrafoDV3.carregaTGF(arq_grafo, 12000);	
